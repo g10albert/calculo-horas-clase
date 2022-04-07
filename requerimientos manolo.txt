@@ -1,0 +1,9 @@
+-validaciones-
+
+-- --total de horas: no puede ser negativo, debe ser un numero entre (horas minimas y horas maximas)
+
+-- --Horas por dia: debe ser un numero entre 1 y 12
+
+-- --Inicio: No puede ser una fecha anterior a la actual
+
+Las horas por dia es el defecto de los dias individuales pero puedo modificarlos individualmente

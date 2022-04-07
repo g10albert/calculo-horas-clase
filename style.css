@@ -1,0 +1,10 @@
+.seleccionar-dias label {
+    width: 35%;
+}
+
+
+@media screen and (min-width: 992px) {
+    body {
+        height: 100vh;
+    }
+}
