@@ -57,17 +57,33 @@ btnProcesar.addEventListener('click', () => {
 
     // Sumando el valor de todos los input fde horas XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-    const inputTotalHorasDia = document.querySelectorAll('.seleccionar-dias input[type=number]')
-    let sumTotalHorasDia = 0;
+    let horasPorDiaObj = {
+        '0': 0,
+        '1': 0,
+        '2': 0,
+        '3': 0,
+        '4': 0,
+        '5': 0,
+        '6': 0,
+    }
+
+    const inputTotalHorasDia = document.querySelectorAll('.seleccionar-dias input[type=number]');
+
     inputTotalHorasDia.forEach(element => {
         if (element.previousElementSibling.previousElementSibling.checked) {
-            console.log(element.value);
-            sumTotalHorasDia += element.value;
+            let valorInput = element.value;
+            let valorIndex = element.getAttribute(['data-index']);
+            horasPorDiaObj[valorIndex] = valorInput;
         }
     })
-    console.log(sumTotalHorasDia);
+    
+    let totalhorasPorDia = Object.entries(horasPorDiaObj).map(num => +num[1]).reduce((p,c) => {
+        return p + c;
+    });
 
-    let diasLaborar = calcDiasLaborar(inputTotalHoras.value, inputHorasDia.value);
+    console.log(totalhorasPorDia);
+
+    let diasLaborar = calcDiasLaborar(inputTotalHoras.value, totalhorasPorDia);
     inputDiasLaborar.value = diasLaborar;
 
     var fechaInicio = moment(inputFechaInicio.value);
@@ -86,7 +102,7 @@ btnProcesar.addEventListener('click', () => {
             let dia = element.nextElementSibling.textContent;
             if (element.checked) {
                 diasFinales.push(dia)
-                diasDeClase.textContent = diasFinales.join(", ")
+                diasDeClase.textContent = diasFinales.join(', ')
             }
         })
     }
