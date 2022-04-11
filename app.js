@@ -7,6 +7,8 @@ const inputFechaFinal = document.querySelector('#inputFechaFinal');
 const inputLunVieCheck = document.querySelector('#lunVieCheck');
 const nuevoFormulario = document.querySelector('#nuevo');
 const diasDeClase = document.querySelector('#diasDeClase');
+const copiarBtn = document.querySelector('.copiar-boton');
+const infoCurso = document.querySelector('#infoCurso');
 const checkBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)')
 
 
@@ -55,7 +57,7 @@ btnProcesar.addEventListener('click', () => {
         return;
     }
 
-    // Sumando el valor de todos los input fde horas XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    // Sumando el valor de todos los input fde horas XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     let horasPorDiaObj = {
         '0': 0,
@@ -76,8 +78,8 @@ btnProcesar.addEventListener('click', () => {
             horasPorDiaObj[valorIndex] = valorInput;
         }
     })
-    
-    let totalhorasPorDia = Object.entries(horasPorDiaObj).map(num => +num[1]).reduce((p,c) => {
+
+    let totalhorasPorDia = Object.entries(horasPorDiaObj).map(num => +num[1]).reduce((p, c) => {
         return p + c;
     });
 
@@ -112,6 +114,23 @@ function calcDiasLaborar(totalHoras, horasDia) {
     let diasLaborar = totalHoras / horasDia;
     return diasLaborar;
 }
+
+// Haciendo que cuando se actualicen las horas por dia se actualicen los campos seleccionados
+
+const listCheckboxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)');
+
+inputHorasDia.addEventListener('keyup', () => {
+
+    listCheckboxes.forEach((checkbox) => {
+        checkbox.nextElementSibling.nextElementSibling.disabled = !checkbox.checked;
+        if (checkbox.checked) {
+            checkbox.nextElementSibling.nextElementSibling.value = inputHorasDia.value;
+        }
+        if (!checkbox.checked) {
+            checkbox.nextElementSibling.nextElementSibling.value = null;
+        }
+    });
+})
 
 const listWeekdaysCheckboxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck,#sabCheck,#domCheck)');
 inputLunVieCheck.addEventListener('change', (e) => {
@@ -155,7 +174,6 @@ sabDom.forEach(e => {
     })
 });
 
-const listCheckboxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)');
 
 const weekdays = Array.from(listCheckboxes).filter((ele) => {
     return ele.id != 'sabCheck' && ele.id != 'domCheck';
@@ -165,7 +183,7 @@ const weekdays = Array.from(listCheckboxes).filter((ele) => {
 listCheckboxes.forEach((checkbox) => {
 
     checkbox.addEventListener('change', ({ target }) => {
-        // elInput = !target.checked;
+        elInput = !target.checked;
         target.nextElementSibling.nextElementSibling.disabled = !target.checked;
         if (target.checked) {
             target.nextElementSibling.nextElementSibling.value = inputHorasDia.value;
@@ -207,4 +225,10 @@ nuevoFormulario.addEventListener('click', () => {
     fullWeek.forEach(dia => {
         dia.value = '';
     });
+})
+
+copiarBtn.addEventListener('click', () => {
+    
+    navigator.clipboard.writeText(infoCurso.textContent)
+
 })
