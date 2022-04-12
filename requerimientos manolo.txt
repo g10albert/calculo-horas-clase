@@ -1,9 +1,6 @@
--validaciones-
+hacer funcion que diga el dia que se seleccione en fecha de inicio
 
--- --total de horas: no puede ser negativo, debe ser un numero entre (horas minimas y horas maximas)
-
--- --Horas por dia: debe ser un numero entre 1 y 12
-
--- --Inicio: No puede ser una fecha anterior a la actual
-
-Las horas por dia es el defecto de los dias individuales pero puedo modificarlos individualmente
+comparar eso con nuestros checkboxes y si ese dia no esta seleccionado que diga un error
+en caso de que el dia si este seleccionado se va a verificar las horas que que tiene el input
+y se va a ir sumando y comparando con el total horas, si sobran horas se las asignamos al ultimo dia
+y avisamos

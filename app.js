@@ -1,6 +1,7 @@
 const inputTotalHoras = document.querySelector('#inputTotalHoras');
 const inputHorasDia = document.querySelector('#inputHorasDia');
 const btnProcesar = document.querySelector('#procesar');
+const diaFechaInicio = document.querySelector('#diaFechaInicio');
 const inputFechaInicio = document.querySelector('#inputFechaInicio');
 const inputDiasLaborar = document.querySelector('#inputDiasLaborar');
 const inputFechaFinal = document.querySelector('#inputFechaFinal');
@@ -112,6 +113,11 @@ function calcDiasLaborar(totalHoras, horasDia) {
     let diasLaborar = totalHoras / horasDia;
     return diasLaborar;
 }
+
+inputFechaInicio.addEventListener('change', () => {
+    let dia = moment(inputFechaInicio.value).format('dddd');
+    diaFechaInicio.value = dia;
+})
 
 // Haciendo que cuando se actualicen las horas por dia se actualicen los campos seleccionados
 
