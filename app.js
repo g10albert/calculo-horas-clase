@@ -71,21 +71,19 @@ btnProcesar.addEventListener('click', () => {
 
     const inputTotalHorasDia = document.querySelectorAll('.seleccionar-dias input[type=number]');
 
-    inputTotalHorasDia.forEach(element => {
-        if (element.previousElementSibling.previousElementSibling.checked) {
-            let valorInput = element.value;
-            let valorIndex = element.getAttribute(['data-index']);
-            horasPorDiaObj[valorIndex] = valorInput;
-        }
-    })
+    // inputTotalHorasDia.forEach(element => {
+    //     if (element.previousElementSibling.previousElementSibling.checked) {
+    //         let valorInput = element.value;
+    //         let valorIndex = element.getAttribute(['data-index']);
+    //         horasPorDiaObj[valorIndex] = valorInput;
+    //     }
+    // })
 
-    let totalhorasPorDia = Object.entries(horasPorDiaObj).map(num => +num[1]).reduce((p, c) => {
-        return p + c;
-    });
+    // let totalhorasPorDia = Object.entries(horasPorDiaObj).map(num => +num[1]).reduce((p, c) => {
+    //     return p + c;
+    // });
 
-    console.log(totalhorasPorDia);
-
-    let diasLaborar = calcDiasLaborar(inputTotalHoras.value, totalhorasPorDia);
+    let diasLaborar = calcDiasLaborar(inputTotalHoras.value, inputHorasDia.value);
     inputDiasLaborar.value = diasLaborar;
 
     var fechaInicio = moment(inputFechaInicio.value);
