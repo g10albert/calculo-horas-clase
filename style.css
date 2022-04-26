@@ -8,3 +8,11 @@
         height: 100vh;
     }
 }
+
+.excluir {
+    display: none;
+}
+
+.activo {
+    display: block;
+}

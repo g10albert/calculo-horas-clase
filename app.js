@@ -1,3 +1,7 @@
+// const moment = require("moment");
+
+//const moment = require("moment");
+
 const inputTotalHoras = document.querySelector('#inputTotalHoras');
 const inputHorasDia = document.querySelector('#inputHorasDia');
 const btnProcesar = document.querySelector('#procesar');
@@ -10,8 +14,19 @@ const nuevoFormulario = document.querySelector('#nuevo');
 const diasDeClase = document.querySelector('#diasDeClase');
 const copiarBtn = document.querySelector('.copiar-boton');
 const infoCurso = document.querySelector('#infoCurso');
-const checkBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)')
+const mostrarFeriados = document.querySelector('.mostrar-feriados');
+const checkBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)');
+const feriados = ['04-27-2022'];
+const excluirDias = document.querySelector('#excDias');
+const datePicker = new Datepicker('#datepicker', {
+    multiple: true,
+    min: (function () {
+        return new Date();
+    })()
+});
+const datePickerInput = document.querySelector('.excluir')
 
+// Validar que no se pongan datos menores o menores de los permitidos
 
 const MINIMO_TOTAL_HORAS = 15;
 const MAXIMO_TOTAL_HORAS = 1000;
@@ -57,39 +72,88 @@ btnProcesar.addEventListener('click', () => {
         alert('La fecha no puede ser una anterior a la actual');
         return;
     }
+    // Procesar dias en los que el facilitador no dará clases
 
-    // Sumando el valor de todos los input fde horas XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    let diasExcluir = datePicker.getValue().split(',')
+    let diasExcluidos = [];
 
-    let horasPorDiaObj = {
-        '0': 0,
-        '1': 0,
-        '2': 0,
-        '3': 0,
-        '4': 0,
-        '5': 0,
-        '6': 0,
+    for (i = 0; i < diasExcluir.length; i++) {
+        let diaExcluido = moment(diasExcluir[i]).format('MM-DD-YYYY');
+        diasExcluidos.push(diaExcluido)
+    }
+
+    if (!excluirDias.checked) {
+        diasExcluidos = [];
     }
 
     const inputTotalHorasDia = document.querySelectorAll('.seleccionar-dias input[type=number]');
 
-    // inputTotalHorasDia.forEach(element => {
-    //     if (element.previousElementSibling.previousElementSibling.checked) {
-    //         let valorInput = element.value;
-    //         let valorIndex = element.getAttribute(['data-index']);
-    //         horasPorDiaObj[valorIndex] = valorInput;
-    //     }
-    // })
+    const checkTotalHorasDia = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck):checked')
 
-    // let totalhorasPorDia = Object.entries(horasPorDiaObj).map(num => +num[1]).reduce((p, c) => {
-    //     return p + c;
-    // });
+    const fechaInicio = moment(inputFechaInicio.value);
 
-    let diasLaborar = calcDiasLaborar(inputTotalHoras.value, inputHorasDia.value);
-    inputDiasLaborar.value = diasLaborar;
+    diasSeleccionados = {}
 
-    var fechaInicio = moment(inputFechaInicio.value);
+    actualizarDiasSeleccionados();
 
-    inputFechaFinal.value = moment(fechaInicio).add(diasLaborar - 1, 'days').format('YYYY-MM-DD');
+    isDateOnSelectedDays(fechaInicio, diasSeleccionados)
+
+    let feriadosExcluidos = [...new Set([...feriados, ...diasExcluidos])]
+
+    let totalHorasProcesadas = 0;
+    let cantidadDiasLaborar = 0;
+
+    if (checkTotalHorasDia.length > 0) {
+
+        if (!isDateOnSelectedDays(fechaInicio, diasSeleccionados)) {
+            alert("La fecha de inicio no esta marcada en los dias")
+            return;
+        }
+
+        // procesar
+        let nextDate = moment(fechaInicio); // fechaInicio
+        let diasNoLabora = []
+        let noLabora = -1;
+
+        while (totalHorasProcesadas < +inputTotalHoras.value) {
+
+            if (isDateOnSelectedDays(nextDate, diasSeleccionados)) {
+
+                if (!feriadosExcluidos.includes(nextDate.format('MM-DD-YYYY'))) {
+                    cantidadDiasLaborar++;
+                    totalHorasProcesadas += getValueFromSelectedDate(nextDate, diasSeleccionados);
+                }
+
+                // Proceso de dias feriados 
+
+                else {
+                    noLabora += 1;
+                    diasNoLabora.push(nextDate.format('MM-DD-YYYY'))
+                }
+            }
+            nextDate = nextDate.add(1, 'days')
+        }
+        let infoFinalCurso = '';
+        let ultimoDia = 0;
+
+        if (totalHorasProcesadas > +inputTotalHoras.value) {
+            let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
+            ultimoDia = (getValueFromSelectedDate(nextDate.subtract(1, 'days'), diasSeleccionados) - horasSobran);
+            infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
+        }
+
+        if (diasNoLabora.length != 0) {
+            infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}`
+        }
+
+        infoCurso.textContent = infoFinalCurso;
+
+        inputDiasLaborar.value = cantidadDiasLaborar;
+        inputFechaFinal.value = nextDate.format('MM-DD-YYYY');
+
+    } else {
+        alert('Debe seleccionar al menos un dia')
+    }
 
     // Inyectandole al parrafo los dias que se seleccionaron para dar clases
 
@@ -109,9 +173,21 @@ btnProcesar.addEventListener('click', () => {
     }
 })
 
-function calcDiasLaborar(totalHoras, horasDia) {
-    let diasLaborar = totalHoras / horasDia;
-    return diasLaborar;
+function actualizarDiasSeleccionados() {
+    const inputsDiasSeleccionados = document.querySelectorAll('.seleccionar-dias input[type=number]:not(:disabled)');
+
+    inputsDiasSeleccionados.forEach(element => {
+        diasSeleccionados[element.dataset.index] = element.value;
+    });
+}
+
+function isDateOnSelectedDays(date, diasSeleccionados) {
+    // obtener indice del dia de la semana de la fecha
+    return moment(date).day() in diasSeleccionados;
+}
+function getValueFromSelectedDate(date, diasSeleccionados) {
+    // obtener valor del input correspondiente al dia seleccionado
+    return +diasSeleccionados[moment(date).day()];
 }
 
 inputFechaInicio.addEventListener('change', () => {
@@ -196,9 +272,7 @@ listCheckboxes.forEach((checkbox) => {
             target.nextElementSibling.nextElementSibling.value = null;
         }
     })
-
 });
-
 
 window.onload = function () {
     var now = moment();
@@ -208,10 +282,11 @@ window.onload = function () {
 // Resetear los valores del formulario para empezar uno nuevo
 
 nuevoFormulario.addEventListener('click', () => {
-    inputTotalHoras.value = 45;
-    inputHorasDia.value = 10;
+    inputTotalHoras.value = 0;
+    inputHorasDia.value = 0;
     var now = moment();
     inputFechaInicio.value = now.format('YYYY-MM-DD');
+    diaFechaInicio.value = '';
     inputFechaFinal.value = '';
     inputDiasLaborar.value = '';
 
@@ -232,7 +307,22 @@ nuevoFormulario.addEventListener('click', () => {
 })
 
 copiarBtn.addEventListener('click', () => {
-    
+
     navigator.clipboard.writeText(infoCurso.textContent)
 
+})
+
+// Mostrar dias feriados
+
+mostrarFeriados.addEventListener('click', () => {
+    alert('Los dias feriados son: ' + feriados.join(', '))
+})
+
+// excluir dias se activa y desactiva
+
+excluirDias.addEventListener('change', () => {
+    datePickerInput.classList.toggle('activo');
+    if (!excluirDias.checked) {
+        datePickerInput.value = ''
+    }
 })
