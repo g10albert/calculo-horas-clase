@@ -16,7 +16,7 @@ const copiarBtn = document.querySelector('.copiar-boton');
 const infoCurso = document.querySelector('#infoCurso');
 const mostrarFeriados = document.querySelector('.mostrar-feriados');
 const checkBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)');
-const feriados = ['04-27-2022'];
+const feriados = ['01-01-2021', '01-04-2021', '01-21-2021', '01-25-2021', '01-27-2021', '02-27-2021', '04-02-2021', '04-04-2021', '05-01-2021', '06-03-2021', '07-16-2021', '09-24-2021', '11-06-2021', '12-25-2021', '01-01-2022', '01-10-2022', '01-21-2022', '01-24-2022', '02-27-2022', '04-15-2022', '05-02-2022', '06-16-2022', '08-16-2022', '09-24-2022', '11-06-2022', '12-25-2022'];
 const excluirDias = document.querySelector('#excDias');
 const datePicker = new Datepicker('#datepicker', {
     multiple: true,
@@ -25,6 +25,7 @@ const datePicker = new Datepicker('#datepicker', {
     })()
 });
 const datePickerInput = document.querySelector('.excluir')
+const orderedList = document.querySelector('#vago')
 
 // Validar que no se pongan datos menores o menores de los permitidos
 
@@ -66,12 +67,13 @@ btnProcesar.addEventListener('click', () => {
         return;
     }
 
-    var now = moment().format('YYYY-MM-DD')
-    var inicio = (inputFechaInicio.value)
-    if (inicio < now) {
-        alert('La fecha no puede ser una anterior a la actual');
-        return;
-    }
+    // var now = moment().format('YYYY-MM-DD')
+    // var inicio = (inputFechaInicio.value)
+    // if (inicio < now) {
+    //     alert('La fecha no puede ser una anterior a la actual');
+    //     return;
+    // }
+
     // Procesar dias en los que el facilitador no dará clases
 
     let diasExcluir = datePicker.getValue().split(',')
@@ -110,6 +112,8 @@ btnProcesar.addEventListener('click', () => {
             return;
         }
 
+        orderedList.innerHTML = '';
+
         // procesar
         let nextDate = moment(fechaInicio); // fechaInicio
         let diasNoLabora = []
@@ -122,6 +126,7 @@ btnProcesar.addEventListener('click', () => {
                 if (!feriadosExcluidos.includes(nextDate.format('MM-DD-YYYY'))) {
                     cantidadDiasLaborar++;
                     totalHorasProcesadas += getValueFromSelectedDate(nextDate, diasSeleccionados);
+                    showDayInList(totalHorasProcesadas, moment(nextDate).format('MM-DD-YYYY dddd'))
                 }
 
                 // Proceso de dias feriados 
@@ -130,6 +135,7 @@ btnProcesar.addEventListener('click', () => {
                     noLabora += 1;
                     diasNoLabora.push(nextDate.format('MM-DD-YYYY'))
                 }
+
             }
             nextDate = nextDate.add(1, 'days')
         }
@@ -138,8 +144,13 @@ btnProcesar.addEventListener('click', () => {
 
         if (totalHorasProcesadas > +inputTotalHoras.value) {
             let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
-            ultimoDia = (getValueFromSelectedDate(nextDate.subtract(1, 'days'), diasSeleccionados) - horasSobran);
-            infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
+
+            ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
+
+            if (ultimoDia > 0) {
+                infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
+            }
+
         }
 
         if (diasNoLabora.length != 0) {
@@ -149,11 +160,27 @@ btnProcesar.addEventListener('click', () => {
         infoCurso.textContent = infoFinalCurso;
 
         inputDiasLaborar.value = cantidadDiasLaborar;
-        inputFechaFinal.value = nextDate.format('MM-DD-YYYY');
+        inputFechaFinal.value = nextDate.subtract(1, 'days').format('MM-DD-YYYY');
 
     } else {
         alert('Debe seleccionar al menos un dia')
     }
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // Inyectandole al parrafo los dias que se seleccionaron para dar clases
 
@@ -188,6 +215,16 @@ function isDateOnSelectedDays(date, diasSeleccionados) {
 function getValueFromSelectedDate(date, diasSeleccionados) {
     // obtener valor del input correspondiente al dia seleccionado
     return +diasSeleccionados[moment(date).day()];
+}
+function showDayInList(totalHorasProcesadas, nextDate) {
+    let listItem = 
+    `<li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+            ${nextDate}
+        </div>
+        <span class="badge bg-primary rounded-pill">${totalHorasProcesadas}</span>
+    </li>`
+    orderedList.innerHTML += listItem;
 }
 
 inputFechaInicio.addEventListener('change', () => {

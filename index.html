@@ -15,121 +15,151 @@
     <title>Control de Fechas para Pedimento Docente</title>
 </head>
 
-<body class="p-5 bg-primary">
-    <div class="container bg-light p-3 rounded-3 w-50 m-auto">
-        <div class="row mb-3">
-            <div class="col-lg-6">
-                <form action="" class="border p-1">
-                    <div class="mb-3">
-                        <label for="inputTotalHoras" class="form-label">Total Horas</label>
-                        <input type="number" class="form-control" id="inputTotalHoras" value="200">
-                    </div>
-                    <div class="mb-3">
-                        <label for="inputHorasDia" class="form-label">Horas por día</label>
-                        <input type="number" class="form-control" id="inputHorasDia" value="4.5">
-                    </div>
+<body class="row p-5 bg-primary">
 
-
-                    <div class="centrar-fecha row">
+    <div class="col-8">
+        <div class="container bg-light p-3 rounded-3 m-auto">
+            <div class="row mb-3">
+                <div class="col-lg-6">
+                    <form action="" class="border p-1">
                         <div class="mb-3">
-                            <label for="inputFechaInicio" class="form-label">Inicio</label>
-                            <input type="date" class="form-control" id="inputFechaInicio">
+                            <label for="inputTotalHoras" class="form-label">Total Horas</label>
+                            <input type="number" class="form-control" id="inputTotalHoras" value="200">
                         </div>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="diaFechaInicio" placeholder="Día de inicio" disabled>
+                            <label for="inputHorasDia" class="form-label">Horas por día</label>
+                            <input type="number" class="form-control" id="inputHorasDia" value="4.5">
                         </div>
-                    </div>
 
 
-                    <div class="disabled-inputs row">
-                        <div class="mb-3 col-6">
-                            <label for="inputFechaFinal" class="form-label">Final</label>
-                            <input type="text" class="form-control" id="inputFechaFinal" disabled>
+                        <div class="centrar-fecha row">
+                            <div class="mb-3">
+                                <label for="inputFechaInicio" class="form-label">Inicio</label>
+                                <input type="date" class="form-control" id="inputFechaInicio">
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" id="diaFechaInicio" placeholder="Día de inicio"
+                                    disabled>
+                            </div>
                         </div>
-                        <div class="mb-3 col-6">
-                            <label for="inputDiasLaborar" class="form-label">Dias a laborar</label>
-                            <input type="number" class="form-control" id="inputDiasLaborar" disabled>
+
+                        <div class="disabled-inputs row">
+                            <div class="mb-3 col-6">
+                                <label for="inputFechaFinal" class="form-label">Final</label>
+                                <input type="text" class="form-control" id="inputFechaFinal" disabled>
+                            </div>
+                            <div class="mb-3 col-6">
+                                <label for="inputDiasLaborar" class="form-label">Dias a laborar</label>
+                                <input type="number" class="form-control" id="inputDiasLaborar" disabled>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <form action="" class="border p-1 seleccionar-dias seleccionar-input-dias">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="lunVieCheck">
+                            <label class="form-check-label" for="lunVieCheck">Lunes/Viernes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input lunCheck" type="checkbox" value="" id="lunCheck">
+                            <label class="form-check-label" for="lunCheck">Lunes</label>
+                            <input type="number" class="w-25 dia" id="inputHorasLun" data-index="1" disabled>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input marCheck" type="checkbox" value="" id="marCheck">
+                            <label class="form-check-label" for="marCheck">Martes</label>
+                            <input type="number" class="w-25 dia" id="inputHorasMar" data-index="2" disabled>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input mieCheck" type="checkbox" value="" id="mieCheck">
+                            <label class="form-check-label" for="mieCheck">Miercoles</label>
+                            <input type="number" class="w-25 dia" id="inputHorasMie" data-index="3" disabled>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input jueCheck" type="checkbox" value="" id="jueCheck">
+                            <label class="form-check-label" for="jueCheck">Jueves</label>
+                            <input type="number" class="w-25 dia" id="inputHorasJue" data-index="4" disabled>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input vieCheck" type="checkbox" value="" id="vieCheck">
+                            <label class="form-check-label" for="vieCheck">Viernes</label>
+                            <input type="number" class="w-25 dia" id="inputHorasVie" data-index="5" disabled>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input sabCheck" type="checkbox" value="" id="sabCheck">
+                            <label class="form-check-label" for="sabCheck">Sabado</label>
+                            <input type="number" class="w-25 dia" id="inputHorasSab" data-index="6" disabled>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input domCheck" type="checkbox" value="" id="domCheck">
+                            <label class="form-check-label" for="domCheck">Domingo</label>
+                            <input type="number" class="w-25 dia" id="inputHorasDom" data-index="0" disabled>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="col-lg-6">
-                <form action="" class="border p-1 seleccionar-dias seleccionar-input-dias">
+            <div class="abajo row">
+                <div class="col-lg-6 elegir-dias">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="lunVieCheck">
-                        <label class="form-check-label" for="lunVieCheck">Lunes/Viernes</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input lunCheck" type="checkbox" value="" id="lunCheck">
-                        <label class="form-check-label" for="lunCheck">Lunes</label>
-                        <input type="number" class="w-25 dia" id="inputHorasLun" data-index="1" disabled>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input marCheck" type="checkbox" value="" id="marCheck">
-                        <label class="form-check-label" for="marCheck">Martes</label>
-                        <input type="number" class="w-25 dia" id="inputHorasMar" data-index="2" disabled>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input mieCheck" type="checkbox" value="" id="mieCheck">
-                        <label class="form-check-label" for="mieCheck">Miercoles</label>
-                        <input type="number" class="w-25 dia" id="inputHorasMie" data-index="3" disabled>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input jueCheck" type="checkbox" value="" id="jueCheck">
-                        <label class="form-check-label" for="jueCheck">Jueves</label>
-                        <input type="number" class="w-25 dia" id="inputHorasJue" data-index="4" disabled>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input vieCheck" type="checkbox" value="" id="vieCheck">
-                        <label class="form-check-label" for="vieCheck">Viernes</label>
-                        <input type="number" class="w-25 dia" id="inputHorasVie" data-index="5" disabled>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input sabCheck" type="checkbox" value="" id="sabCheck">
-                        <label class="form-check-label" for="sabCheck">Sabado</label>
-                        <input type="number" class="w-25 dia" id="inputHorasSab" data-index="6" disabled>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input domCheck" type="checkbox" value="" id="domCheck">
-                        <label class="form-check-label" for="domCheck">Domingo</label>
-                        <input type="number" class="w-25 dia" id="inputHorasDom" data-index="0" disabled>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="abajo row">
-            <div class="col-lg-6 elegir-dias">
-                <div class="form-check">
-                    <!-- cuando esta opción este marcada apareceran un numero 
+                        <!-- cuando esta opción este marcada apareceran un numero 
                         n de inputs en los cuales el facilitador dira que dias 
                         no puede dar clases -->
-                    <input class="form-check-input" type="checkbox" value="" id="excDias">
-                    <label class="form-check-label" for="excDias">Excluir días</label>
-                    <input type="text" id="datepicker" class="excluir" autocomplete="off">
-                </div>
-                <div class="botones">
-                    <div class="row">
-                        <div class="mb-3 col-4">
-                            <button type="submit" class="btn btn-primary" id="procesar">Procesar</button>
+                        <input class="form-check-input" type="checkbox" value="" id="excDias">
+                        <label class="form-check-label" for="excDias">Excluir días</label>
+                        <input type="text" id="datepicker" class="excluir" autocomplete="off">
+                    </div>
+                    <div class="botones">
+                        <div class="row">
+                            <div class="mb-3 col-4">
+                                <button type="submit" class="btn btn-primary" id="procesar">Procesar</button>
+                            </div>
+                            <div class="mb-3  col-4">
+                                <button id="nuevo" type="submit" class="btn btn-primary">Nuevo</button>
+                            </div>
+                            <div class="mb-3 p-0 col-4">
+                                <a href="https://www.google.com"><button type="submit"
+                                        class="btn btn-primary">Salir</button></a>
+                            </div>
                         </div>
-                        <div class="mb-3  col-4">
-                            <button id="nuevo" type="submit" class="btn btn-primary">Nuevo</button>
-                        </div>
-                        <div class="mb-3 p-0 col-4">
-                            <a href="https://www.google.com"><button type="submit" class="btn btn-primary">Salir</button></a>
+                        <div class="mb-3 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary mostrar-feriados">Mostrar feriados</button>
                         </div>
                     </div>
-                    <div class="mb-3 d-flex justify-content-center">
-                        <button type="submit" class="btn btn-primary mostrar-feriados">Mostrar feriados</button>
-                    </div>
                 </div>
+                <div class="col-lg-6 output-info">
+                    <p id="diasDeClase" class="border mt-3 ms-4 p-1">Ejemplo dias curso</p>
+                    <p id="infoCurso" class="border mt-1 overflow-auto p-1">Ejemplo informacion final del curso</p>
+                </div>
+                <button type="submit" class="btn btn-primary w-25 m-auto copiar-boton">Copiar</button>
             </div>
-            <div class="col-lg-6 output-info">
-                <p id="diasDeClase" class="border mt-3 ms-4 p-1">Ejemplo dias curso</p>
-                <p id="infoCurso" class="border mt-1 overflow-auto p-1">Ejemplo informacion final del curso</p>
-            </div>
-            <button type="submit" class="btn btn-primary w-25 m-auto copiar-boton">Copiar</button>
         </div>
+    </div>
+
+    <div class="col-4">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Fechas
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <ol class="list-group list-group-numbered" id="vago">
+                            
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
     </div>
 
     <!-- Datepicker JS -->

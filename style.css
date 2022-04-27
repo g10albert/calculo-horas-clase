@@ -6,6 +6,7 @@
 @media screen and (min-width: 992px) {
     body {
         height: 100vh;
+        overflow-x: hidden;
     }
 }
 
@@ -15,4 +16,9 @@
 
 .activo {
     display: block;
+}
+
+#vago {
+    height: 82vh;
+    overflow-y: scroll;
 }
