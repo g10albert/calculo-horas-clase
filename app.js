@@ -1,6 +1,9 @@
 // const moment = require("moment");
 
+// const moment = require("moment");
+
 //const moment = require("moment");
+
 
 const inputTotalHoras = document.querySelector('#inputTotalHoras');
 const inputHorasDia = document.querySelector('#inputHorasDia');
@@ -16,7 +19,7 @@ const copiarBtn = document.querySelector('.copiar-boton');
 const infoCurso = document.querySelector('#infoCurso');
 const mostrarFeriados = document.querySelector('.mostrar-feriados');
 const checkBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)');
-const feriados = ['01-01-2021', '01-04-2021', '01-21-2021', '01-25-2021', '01-27-2021', '02-27-2021', '04-02-2021', '04-04-2021', '05-01-2021', '06-03-2021', '07-16-2021', '09-24-2021', '11-06-2021', '12-25-2021', '01-01-2022', '01-10-2022', '01-21-2022', '01-24-2022', '02-27-2022', '04-15-2022', '05-02-2022', '06-16-2022', '08-16-2022', '09-24-2022', '11-06-2022', '12-25-2022'];
+
 const excluirDias = document.querySelector('#excDias');
 const datePicker = new Datepicker('#datepicker', {
     multiple: true,
@@ -26,6 +29,19 @@ const datePicker = new Datepicker('#datepicker', {
 });
 const datePickerInput = document.querySelector('.excluir')
 const orderedList = document.querySelector('#vago')
+
+// Conexión con la base de datos para crear array de dias feriados
+
+const feriados = [];
+async function fetchDates() {
+    const response = await fetch('http://localhost/manolo_api/');
+    const dates = await response.json();
+    for (let i = 0; i < dates.length; i++) {
+        feriados.push(moment(dates[i].dia_festivo).format('MM-DD-YYYY'))
+    }
+}
+
+fetchDates();
 
 // Validar que no se pongan datos menores o menores de los permitidos
 
@@ -66,14 +82,15 @@ btnProcesar.addEventListener('click', () => {
         inputHorasDia.focus()
         return;
     }
+    
+    var now = moment().format('YYYY-MM-DD')
+    var inicio = (inputFechaInicio.value)
+    if (inicio < now) {
+        alert('La fecha no puede ser una anterior a la actual');
+        return;
+    }
 
-    // var now = moment().format('YYYY-MM-DD')
-    // var inicio = (inputFechaInicio.value)
-    // if (inicio < now) {
-    //     alert('La fecha no puede ser una anterior a la actual');
-    //     return;
-    // }
-
+    
     // Procesar dias en los que el facilitador no dará clases
 
     let diasExcluir = datePicker.getValue().split(',')
@@ -130,7 +147,6 @@ btnProcesar.addEventListener('click', () => {
                 }
 
                 // Proceso de dias feriados 
-
                 else {
                     noLabora += 1;
                     diasNoLabora.push(nextDate.format('MM-DD-YYYY'))
@@ -139,10 +155,27 @@ btnProcesar.addEventListener('click', () => {
             }
             nextDate = nextDate.add(1, 'days')
         }
+
         let infoFinalCurso = '';
         let ultimoDia = 0;
 
+        inputFechaFinal.value = nextDate.subtract(1, 'days').format('MM-DD-YYYY');
+
         if (totalHorasProcesadas > +inputTotalHoras.value) {
+
+            // Experimento para arreglar bug de cuando solo se selecciona un dia
+
+            if (nextDate.day() in diasSeleccionados) {
+
+            } else {
+
+                nextDate = nextDate.subtract(1, 'days')
+
+                let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
+
+                ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
+            }
+
             let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
 
             ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
@@ -150,7 +183,6 @@ btnProcesar.addEventListener('click', () => {
             if (ultimoDia > 0) {
                 infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
             }
-
         }
 
         if (diasNoLabora.length != 0) {
@@ -160,27 +192,11 @@ btnProcesar.addEventListener('click', () => {
         infoCurso.textContent = infoFinalCurso;
 
         inputDiasLaborar.value = cantidadDiasLaborar;
-        inputFechaFinal.value = nextDate.subtract(1, 'days').format('MM-DD-YYYY');
+        // inputFechaFinal.value = nextDate.subtract(1, 'days').format('MM-DD-YYYY');
 
     } else {
-        alert('Debe seleccionar al menos un dia')
+        alert('Debe seleccionar al menos un dia');
     }
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     // Inyectandole al parrafo los dias que se seleccionaron para dar clases
 
@@ -217,8 +233,8 @@ function getValueFromSelectedDate(date, diasSeleccionados) {
     return +diasSeleccionados[moment(date).day()];
 }
 function showDayInList(totalHorasProcesadas, nextDate) {
-    let listItem = 
-    `<li class="list-group-item d-flex justify-content-between align-items-start">
+    let listItem =
+        `<li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
             ${nextDate}
         </div>
@@ -319,8 +335,8 @@ window.onload = function () {
 // Resetear los valores del formulario para empezar uno nuevo
 
 nuevoFormulario.addEventListener('click', () => {
-    inputTotalHoras.value = 0;
-    inputHorasDia.value = 0;
+    inputTotalHoras.value = '';
+    inputHorasDia.value = '';
     var now = moment();
     inputFechaInicio.value = now.format('YYYY-MM-DD');
     diaFechaInicio.value = '';
