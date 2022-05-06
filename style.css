@@ -1,14 +1,14 @@
-.seleccionar-dias label {
+/* .seleccionar-dias label {
     width: 35%;
-}
+} */
 
 
-@media screen and (min-width: 992px) {
+/* @media screen and (min-width: 992px) {
     body {
         height: 100vh;
         overflow-x: hidden;
     }
-}
+} */
 
 .excluir {
     display: none;
@@ -16,9 +16,232 @@
 
 .activo {
     display: block;
+    margin-bottom: 10px;
 }
 
-#vago {
+/* #vago {
     height: 82vh;
     overflow-y: scroll;
+}  */
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+:root {
+    --clr-main: #233B4A;
+    --clr-white: #FFFFFF;
+    --clr-bg: #F6FAFD;
+    --fnt-h: 'Lato', sans-serif;
+    --fnt-p: 'Open Sans', sans-serif;
+    --weight-p: 500;
+    --weight-h: 600;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    box-sizing: border-box;
+    font-family: var(--fnt-p);
+    font-weight: var(--weight-p);
+    text-align: center;
+    background: #FAF2DE;
+    color: var(--clr-main);
+    position: relative;
+}
+
+.title {
+    background: var(--clr-main);
+    color: white;
+    min-height: 4ch;
+    line-height: 4ch;
+    margin-bottom: 2rem;
+}
+
+.info-wraper {
+    margin: auto;
+    width: 70%;
+    background: var(--clr-bg);
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.15);
+}
+
+.part {
+    background: var(--clr-main);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    height: 3ch;
+    line-height: 3ch;
+}
+
+label {
+    font-size: 1.4rem;
+}
+
+.info-wraper input:not([type='checkbox']):not([type='text']) {
+    width: 150px;
+    display: block;
+    margin: auto;
+}
+
+.info-wraper input:not([type='checkbox']):enabled {
+    outline: none;
+    background: white;
+    width: 150px;
+    border: 1.3px solid rgba(0, 0, 0, 0.15);
+}
+
+.info-wraper input:not([type='checkbox']):focus {
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
+}
+
+.excDiv {
+    width: 80px;
+    margin: auto;
+    line-height: 1;
+    margin-top: 10px;
+}
+
+.excDiv .excluirInput:focus {
+    background: #000;
+}
+
+.select-wraper {
+    margin: auto;
+    width: 70%;
+    background: var(--clr-bg);
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.select-wraper h3 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.wraper input:checked {
+    background: var(--clr-main);
+}
+
+.select-wraper label {
+    width: 45%;
+    margin-bottom: 13px;
+}
+
+.select-wraper input:not([type='checkbox']) {
+    width: 30%;
+    border: 1.3px solid rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+}
+
+.select-wraper input:not([type='checkbox']):disabled {
+    background: #E9ECEF;
+}
+
+.select-wraper input:not([type='checkbox']):enabled {
+    outline: none;
+    background: white;
+    width: 30%;
+    border: 1.3px solid rgba(0, 0, 0, 0.15);
+}
+
+.select-wraper input:not([type='checkbox']):focus {
+    box-shadow: 0px 0px 9px -2px #233B4A;
+}
+
+.select-wraper .check-wraper {
+    padding-left: 5.5rem;
+    width: 84%;
+    margin: auto;
+    line-height: 0.5;
+}
+
+.btn-wraper {
+    margin: auto;
+    width: 53%;
+    padding-bottom: 20px;
+    margin-top: 3px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.btn-wraper .btn {
+    all: unset;
+    background: var(--clr-main);
+    width: 100%;
+    color: white;
+    text-align: center;
+    min-height: 4ch;
+    font-weight: var(--weight-p);
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+}
+
+.center-btns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+}
+
+.date-wraper {
+    font-size: 1.4rem;
+    margin: auto;
+    width: 70%;
+    background: var(--clr-bg);
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.15);
+}
+
+.date-wraper h3 {
+    margin: 0;
+}
+
+.fechas-titulo {
+    background: unset !important;
+    border: unset !important;
+    outline: unset !important;
+    font-size: 1.5rem !important;
+    color: var(--clr-main) !important;
+}
+
+.horas {
+    background: var(--clr-main) !important;
+}
+
+.txt {
+    background: white;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 1.5rem;
+    margin-top: 15px;
+    border: 1px solid ;
+}
+
+.copiar-boton {
+    all: unset;
+    margin: 2rem 0;
+    background: var(--clr-main);
+    width: 30%;
+    color: white;
+    min-height: 4ch;
+    font-weight: var(--weight-p);
+    border-radius: 3px;
+    border: 1.3px solid rgba(0, 0, 0, 0.5);
+}
+
+.accordion {
+    margin-bottom: 2rem;
+    height: 30ch;
+    border-radius: 15px;
+    overflow: scroll;
 }

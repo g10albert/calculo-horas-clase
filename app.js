@@ -238,7 +238,7 @@ function showDayInList(totalHorasProcesadas, nextDate) {
         <div class="ms-2 me-auto">
             ${nextDate}
         </div>
-        <span class="badge bg-primary rounded-pill">${totalHorasProcesadas}</span>
+        <span class="badge bg-primary rounded-pill horas">${totalHorasProcesadas}</span>
     </li>`
     orderedList.innerHTML += listItem;
 }
