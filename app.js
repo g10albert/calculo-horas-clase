@@ -82,7 +82,7 @@ btnProcesar.addEventListener('click', () => {
         inputHorasDia.focus()
         return;
     }
-    
+
     var now = moment().format('YYYY-MM-DD')
     var inicio = (inputFechaInicio.value)
     if (inicio < now) {
@@ -90,7 +90,7 @@ btnProcesar.addEventListener('click', () => {
         return;
     }
 
-    
+
     // Procesar dias en los que el facilitador no dará clases
 
     let diasExcluir = datePicker.getValue().split(',')
@@ -181,6 +181,13 @@ btnProcesar.addEventListener('click', () => {
             ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
 
             if (ultimoDia > 0) {
+                if (!infoCurso.classList.contains('activos')) {
+                    infoCurso.classList.toggle('activos')
+                }
+
+                if (!copiarBtn.classList.contains('activos')) {
+                    copiarBtn.classList.toggle('activos')
+                }
                 infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
             }
         }
@@ -201,6 +208,10 @@ btnProcesar.addEventListener('click', () => {
     // Inyectandole al parrafo los dias que se seleccionaron para dar clases
 
     const diasFinales = []
+
+    if (!diasDeClase.classList.contains('activos')) {
+        diasDeClase.classList.toggle('activos')
+    }
 
     dia_id: if (inputLunVieCheck.checked) {
         diasDeClase.textContent = 'Lunes a viernes';
@@ -342,6 +353,12 @@ nuevoFormulario.addEventListener('click', () => {
     diaFechaInicio.value = '';
     inputFechaFinal.value = '';
     inputDiasLaborar.value = '';
+    diasDeClase.textContent = '';
+        diasDeClase.classList.remove('activos');
+    infoCurso.textContent = '';
+        infoCurso.classList.remove('activos');
+    copiarBtn.classList.remove('activos')
+    orderedList.textContent = '';
 
     const fullWeekCheckBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]')
     fullWeekCheckBoxes.forEach(diaCheckBox => {
