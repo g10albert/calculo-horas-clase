@@ -181,19 +181,19 @@ btnProcesar.addEventListener('click', () => {
             ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
 
             if (ultimoDia > 0) {
-                if (!infoCurso.classList.contains('activos')) {
-                    infoCurso.classList.toggle('activos')
-                }
-
-                if (!copiarBtn.classList.contains('activos')) {
-                    copiarBtn.classList.toggle('activos')
-                }
+                
                 infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
             }
         }
 
         if (diasNoLabora.length != 0) {
             infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}`
+        }
+
+        if (ultimoDia > 0 || diasNoLabora.length != 0) {
+            if (!infoCurso.classList.contains('activos')) {
+                infoCurso.classList.toggle('activos');
+            }
         }
 
         infoCurso.textContent = infoFinalCurso;
@@ -211,6 +211,10 @@ btnProcesar.addEventListener('click', () => {
 
     if (!diasDeClase.classList.contains('activos')) {
         diasDeClase.classList.toggle('activos')
+    }
+
+    if (!copiarBtn.classList.contains('activos')) {
+        copiarBtn.classList.toggle('activos')
     }
 
     dia_id: if (inputLunVieCheck.checked) {

@@ -19,11 +19,11 @@
     margin-bottom: 10px;
 }
 
-.date-wraper .inactivo {
+.info .inactivo {
     display: none;
 }
 
-.date-wraper .activos {
+.info .activos {
     display: inline-block;
 }
 
