@@ -26,27 +26,27 @@
             <form action="" class="">
                 <div class="">
                     <label for="inputTotalHoras" class="form-label">Total Horas</label>
-                    <input type="number" class="form-control" id="inputTotalHoras" value="">
+                    <input type="number" class="form-control input" id="inputTotalHoras" value="">
                 </div>
                 <div class="">
                     <label for="inputHorasDia" class="form-label">Horas por día</label>
-                    <input type="number" class="form-control" id="inputHorasDia" value="">
+                    <input type="number" class="form-control input" id="inputHorasDia" value="">
                 </div>
                 <div class="">
                     <label for="inputFechaInicio" class="form-label">Inicio</label>
-                    <input type="date" class="form-control" id="inputFechaInicio">
+                    <input type="date" class="form-control input" id="inputFechaInicio">
                 </div>
                 <div class="">
-                    <label for="diaFechaInicio">Dia de inicio</label>
-                    <input type="email" class="form-control" id="diaFechaInicio" disabled>
+                    <label for="diaFechaInicio" class="form-label">Dia de inicio</label>
+                    <input type="email" class="form-control input" id="diaFechaInicio" disabled>
                 </div>
                 <div class=" ">
                     <label for="inputFechaFinal" class="form-label">Final</label>
-                    <input type="email" class="form-control" id="inputFechaFinal" disabled>
+                    <input type="email" class="form-control input" id="inputFechaFinal" disabled>
                 </div>
                 <div class=" ">
                     <label for="inputDiasLaborar" class="form-label">Dias a laborar</label>
-                    <input type="number" class="form-control" id="inputDiasLaborar" disabled>
+                    <input type="number" class="form-control input" id="inputDiasLaborar" disabled>
                 </div>
                 <div class="form-check">
                     <!-- cuando esta opción este marcada apareceran un numero 
@@ -57,7 +57,7 @@
                         <label class="form-check-label" for="excDias">Excluir días</label>
                     </div>
                     <br>
-                    <input type="text" id="datepicker" class="excluir excluirInput" autocomplete="off">
+                    <input type="text" id="datepicker" class="excluir excluirInput input" autocomplete="off">
                 </div>
             </form>
         </div>
@@ -65,41 +65,44 @@
         <div class="select-wraper">
             <h3 class="part">Selección de días</h3>
             <form action="" class="seleccionar-dias">
-                <div class="form-check check-wraper">
+                <div class="form-check select-day-wraper check-wraper">
                     <input class="form-check-input" type="checkbox" value="" id="lunVieCheck">
                     <label class="form-check-label" for="lunVieCheck">Lunes/Viernes</label>
                 </div>
-                <div class="form-check check-wraper">
-                    <input class="form-check-input lunCheck" type="checkbox" value="" id="lunCheck">
-                    <label class="form-check-label" for="lunCheck">Lunes</label>
-                    <input type="number" class=" dia" id="inputHorasLun" data-index="1" disabled>
+                <div class="tab">
+                    <div class="form-check select-day-wraper input-value check-wraper">
+                        <input class="form-check-input lunCheck" type="checkbox" value="" id="lunCheck">
+                        <label class="form-check-label" for="lunCheck">Lunes</label>
+                        <input type="number" class=" dia" id="inputHorasLun" data-index="1" disabled>
+                    </div>
+                    <div class="form-check select-day-wraper input-value check-wraper">
+                        <input class="form-check-input marCheck" type="checkbox" value="" id="marCheck">
+                        <label class="form-check-label" for="marCheck">Martes</label>
+                        <input type="number" class=" dia" id="inputHorasMar" data-index="2" disabled>
+                    </div>
+                    <div class="form-check select-day-wraper input-value check-wraper">
+                        <input class="form-check-input mieCheck" type="checkbox" value="" id="mieCheck">
+                        <label class="form-check-label" for="mieCheck">Miercoles</label>
+                        <input type="number" class=" dia" id="inputHorasMie" data-index="3" disabled>
+                    </div>
+                    <div class="form-check select-day-wraper input-value check-wraper">
+                        <input class="form-check-input jueCheck" type="checkbox" value="" id="jueCheck">
+                        <label class="form-check-label" for="jueCheck">Jueves</label>
+                        <input type="number" class=" dia" id="inputHorasJue" data-index="4" disabled>
+                    </div>
+                    <div class="form-check select-day-wraper input-value check-wraper">
+                        <input class="form-check-input vieCheck" type="checkbox" value="" id="vieCheck">
+                        <label class="form-check-label" for="vieCheck">Viernes</label>
+                        <input type="number" class=" dia" id="inputHorasVie" data-index="5" disabled>
+                    </div>
                 </div>
-                <div class="form-check check-wraper">
-                    <input class="form-check-input marCheck" type="checkbox" value="" id="marCheck">
-                    <label class="form-check-label" for="marCheck">Martes</label>
-                    <input type="number" class=" dia" id="inputHorasMar" data-index="2" disabled>
-                </div>
-                <div class="form-check check-wraper">
-                    <input class="form-check-input mieCheck" type="checkbox" value="" id="mieCheck">
-                    <label class="form-check-label" for="mieCheck">Miercoles</label>
-                    <input type="number" class=" dia" id="inputHorasMie" data-index="3" disabled>
-                </div>
-                <div class="form-check check-wraper">
-                    <input class="form-check-input jueCheck" type="checkbox" value="" id="jueCheck">
-                    <label class="form-check-label" for="jueCheck">Jueves</label>
-                    <input type="number" class=" dia" id="inputHorasJue" data-index="4" disabled>
-                </div>
-                <div class="form-check check-wraper">
-                    <input class="form-check-input vieCheck" type="checkbox" value="" id="vieCheck">
-                    <label class="form-check-label" for="vieCheck">Viernes</label>
-                    <input type="number" class=" dia" id="inputHorasVie" data-index="5" disabled>
-                </div>
-                <div class="form-check check-wraper">
+                
+                <div class="form-check select-day-wraper input-value check-wraper">
                     <input class="form-check-input sabCheck" type="checkbox" value="" id="sabCheck">
                     <label class="form-check-label" for="sabCheck">Sabado</label>
                     <input type="number" class=" dia" id="inputHorasSab" data-index="6" disabled>
                 </div>
-                <div class="form-check check-wraper">
+                <div class="form-check select-day-wraper input-value check-wraper">
                     <input class="form-check-input domCheck" type="checkbox" value="" id="domCheck">
                     <label class="form-check-label" for="domCheck">Domingo</label>
                     <input type="number" class=" dia" id="inputHorasDom" data-index="0" disabled>
@@ -143,12 +146,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="info">
-                    <p id="diasDeClase" class="diasDeClase txt inactivo"></p>
-                    <p id="infoCurso" class="infoCurso txt inactivo"></p>
-                </div>
-                <button type="submit" class="copiar-boton inactivo">Copiar</button>
             </div>
+            <div class="info">
+                <p id="diasDeClase" class="diasDeClase txt inactivo"></p>
+                <p id="infoCurso" class="infoCurso txt inactivo"></p>
+            </div>
+            <button type="submit" class="copiar-boton inactivo">Copiar</button>
         </div>
     </main>
 

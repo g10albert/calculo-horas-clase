@@ -377,9 +377,7 @@ nuevoFormulario.addEventListener('click', () => {
 })
 
 copiarBtn.addEventListener('click', () => {
-
     navigator.clipboard.writeText(infoCurso.textContent)
-
 })
 
 // Mostrar dias feriados
