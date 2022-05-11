@@ -122,6 +122,8 @@ btnProcesar.addEventListener('click', () => {
     let totalHorasProcesadas = 0;
     let cantidadDiasLaborar = 0;
 
+    // Procesar informacion dependiendo en los dias seleccionados y horas a impartir
+
     if (checkTotalHorasDia.length > 0) {
 
         if (!isDateOnSelectedDays(fechaInicio, diasSeleccionados)) {
@@ -131,8 +133,7 @@ btnProcesar.addEventListener('click', () => {
 
         orderedList.innerHTML = '';
 
-        // procesar
-        let nextDate = moment(fechaInicio); // fechaInicio
+        let nextDate = moment(fechaInicio);
         let diasNoLabora = []
         let noLabora = -1;
 
@@ -147,6 +148,7 @@ btnProcesar.addEventListener('click', () => {
                 }
 
                 // Proceso de dias feriados 
+
                 else {
                     noLabora += 1;
                     diasNoLabora.push(nextDate.format('MM-DD-YYYY'))
@@ -161,18 +163,14 @@ btnProcesar.addEventListener('click', () => {
 
         inputFechaFinal.value = nextDate.subtract(1, 'days').format('MM-DD-YYYY');
 
+        // Proceso cuando las horas procesadas son mas que el total de horas del curso
+
         if (totalHorasProcesadas > +inputTotalHoras.value) {
 
-            // Experimento para arreglar bug de cuando solo se selecciona un dia
-
             if (nextDate.day() in diasSeleccionados) {
-
             } else {
-
                 nextDate = nextDate.subtract(1, 'days')
-
                 let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
-
                 ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
             }
 
@@ -180,8 +178,9 @@ btnProcesar.addEventListener('click', () => {
 
             ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
 
+            // Mostrar informacion del curso dependiendo de si hay informacion o no
+
             if (ultimoDia > 0) {
-                
                 infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
             }
         }
@@ -199,7 +198,6 @@ btnProcesar.addEventListener('click', () => {
         infoCurso.textContent = infoFinalCurso;
 
         inputDiasLaborar.value = cantidadDiasLaborar;
-        // inputFechaFinal.value = nextDate.subtract(1, 'days').format('MM-DD-YYYY');
 
     } else {
         alert('Debe seleccionar al menos un dia');
@@ -233,7 +231,7 @@ btnProcesar.addEventListener('click', () => {
 
 function actualizarDiasSeleccionados() {
     const inputsDiasSeleccionados = document.querySelectorAll('.seleccionar-dias input[type=number]:not(:disabled)');
-
+    // Obtener los dias seleccionados
     inputsDiasSeleccionados.forEach(element => {
         diasSeleccionados[element.dataset.index] = element.value;
     });
@@ -247,6 +245,9 @@ function getValueFromSelectedDate(date, diasSeleccionados) {
     // obtener valor del input correspondiente al dia seleccionado
     return +diasSeleccionados[moment(date).day()];
 }
+
+// Mostrar la fecha y horas de clases que se han dado hasta el momento
+
 function showDayInList(totalHorasProcesadas, nextDate) {
     let listItem =
         `<li class="list-group-item d-flex justify-content-between align-items-start">
@@ -279,6 +280,8 @@ inputHorasDia.addEventListener('keyup', () => {
         }
     });
 })
+
+// Controlando la seleccion de diferentes dias
 
 const listWeekdaysCheckboxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck,#sabCheck,#domCheck)');
 inputLunVieCheck.addEventListener('change', (e) => {
@@ -322,16 +325,11 @@ sabDom.forEach(e => {
     })
 });
 
-
-const weekdays = Array.from(listCheckboxes).filter((ele) => {
-    return ele.id != 'sabCheck' && ele.id != 'domCheck';
-});
-
+// Activar y desactivar los inputs de selección con los checkboxes y labels
 
 listCheckboxes.forEach((checkbox) => {
 
     checkbox.addEventListener('change', ({ target }) => {
-        elInput = !target.checked;
         target.nextElementSibling.nextElementSibling.disabled = !target.checked;
         if (target.checked) {
             target.nextElementSibling.nextElementSibling.value = inputHorasDia.value;
@@ -340,7 +338,10 @@ listCheckboxes.forEach((checkbox) => {
             target.nextElementSibling.nextElementSibling.value = null;
         }
     })
+    
 });
+
+// Haciendo que la fecha de inicio sea la de este momento al cargar la pagina
 
 window.onload = function () {
     var now = moment();
@@ -358,9 +359,9 @@ nuevoFormulario.addEventListener('click', () => {
     inputFechaFinal.value = '';
     inputDiasLaborar.value = '';
     diasDeClase.textContent = '';
-        diasDeClase.classList.remove('activos');
+    diasDeClase.classList.remove('activos');
     infoCurso.textContent = '';
-        infoCurso.classList.remove('activos');
+    infoCurso.classList.remove('activos');
     copiarBtn.classList.remove('activos')
     orderedList.textContent = '';
 
@@ -379,6 +380,8 @@ nuevoFormulario.addEventListener('click', () => {
         dia.value = '';
     });
 })
+
+// Boton para copiar informacion del curso
 
 copiarBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(infoCurso.textContent)

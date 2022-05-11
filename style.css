@@ -1,14 +1,4 @@
-/* .seleccionar-dias label {
-    width: 35%;
-} */
-
-
-/* @media screen and (min-width: 992px) {
-    body {
-        height: 100vh;
-        overflow-x: hidden;
-    }
-} */
+/* Estilos para mostrar y ocultar elementos mientrar sea necesario */
 
 .excluir {
     display: none;
@@ -27,6 +17,8 @@
     display: inline-block;
 }
 
+/* Importando fuents y creando variables */
+
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 :root {
@@ -38,6 +30,8 @@
     --weight-p: 500;
     --weight-h: 600;
 }
+
+/* Reseteando y creando los estilos basicos del documento */
 
 html {
     font-size: 62.5%;
@@ -58,6 +52,22 @@ body {
     position: relative;
 }
 
+/* Estilos para los titulos de diferentes divisiones */
+
+.part {
+    background: var(--clr-main);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    height: 3ch;
+    line-height: 3ch;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* Estilos para el titulo */
+
 .title {
     background: var(--clr-main);
     color: white;
@@ -65,6 +75,8 @@ body {
     line-height: 4ch;
     margin-bottom: 2rem;
 }
+
+/* Estilos para el primer div (informacion del curso) */
 
 .info-wraper {
     margin: auto;
@@ -75,17 +87,11 @@ body {
     box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.15);
 }
 
-.part {
-    background: var(--clr-main);
-    color: white;
-    border-radius: 15px 15px 0 0;
-    height: 3ch;
-    line-height: 3ch;
-}
-
 label {
     font-size: 1.4rem;
 }
+
+/* Estilos para los inputs */
 
 .info-wraper input:not([type='checkbox']):not([type='text']) {
     width: 150px;
@@ -111,9 +117,7 @@ label {
     margin-top: 10px;
 }
 
-.excDiv .excluirInput:focus {
-    background: #000;
-}
+/* Estilos para el segundo div (Selección de dias) */
 
 .select-wraper {
     margin: auto;
@@ -127,7 +131,6 @@ label {
 
 .select-wraper h3 {
     text-align: center;
-    margin-bottom: 15px;
 }
 
 .wraper input:checked {
@@ -174,10 +177,6 @@ label {
     margin-top: 3px;
 }
 
-a {
-    text-decoration: none;
-}
-
 .btn-wraper .btn {
     all: unset;
     background: var(--clr-main);
@@ -195,6 +194,8 @@ a {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 1rem;
 }
+
+/* Estilos para el tercer div (Fechas) */
 
 .date-wraper {
     font-size: 1.4rem;
@@ -221,7 +222,7 @@ a {
     background: var(--clr-main) !important;
 }
 
-.txt {
+.txt-info {
     background: white;
     width: 90%;
     margin: auto;
@@ -253,6 +254,9 @@ a {
 /* Estilos para pantallas mayores a 768 pixeles */
 
 @media (min-width: 768px) {
+
+    /* Dividiendo los diferentes divs para aprovechar mejor el espacio */
+
     .wraper {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -262,6 +266,8 @@ a {
             "info-wraper select-wraper"
             "date-wraper date-wraper";
     }
+
+/* Estilos para el primer div (Información del curso) */
 
     .info-wraper {
         grid-area: info-wraper;
@@ -281,18 +287,23 @@ a {
     .info-wraper .input {
         font-size: 1.5rem;
     }
+    
+/* Estilos para el segundo div (Selección de días) */
 
     .select-wraper {
-        grid-area: select-wraper;
-        margin-bottom: 0;
+        margin-bottom: 0rem;
         margin-left: 1em;
+    }
+
+    .select-wraper h3 {
+        margin-bottom: 15px;
     }
 
     .select-wraper label {
         width: 50%;
     }
 
-    .select-wraper .form-check-label {
+    .select-wraper .label {
         font-size: 2rem;
     }
 
@@ -300,7 +311,7 @@ a {
         font-size: 1.4rem;
     }
 
-    .select-wraper .form-check-input {
+    .select-wraper .checkbox {
         font-size: 2rem;
     }
 
@@ -308,13 +319,15 @@ a {
         margin-bottom: .4em;
     }
 
-    .select-day-wraper .form-check-label {
+    .select-day-wraper .label {
         margin-top: .5em;
     }
 
     .select-day-wraper .dia {
         height: 2rem;
     }
+
+    /* Estilos para los botones del segundo div*/
 
     .btn-wraper {
         width: 65%;
@@ -324,6 +337,8 @@ a {
     .btn-wraper .btn {
         margin-bottom: .85em;
     }
+
+    /* Estilos para el tercer div (Fechas) */
 
     .date-wraper {
         grid-area: date-wraper;
@@ -336,19 +351,28 @@ a {
 /* Estilos para pantallas mayores a 1024px pixeles */
 
 @media (min-width: 1024px) {
+
+/* Haciendo que los divs se muestren en 3 con flex */
+
     .wraper {
         display: flex;
     }
+
+    /* Estilos para el primer div (Información del curso) */
 
     .info-wraper {
         min-height: 80vh;
         margin-left: 3em;
     }
 
+    /* Estilos para el segundo div (Selección de días) */
+
     .select-wraper {
         min-height: 80vh;
         margin-right: .8em;
     }
+
+    /* Estilos para el tercer div (Fechas) */
 
     .date-wraper {
         min-height: 80vh;
