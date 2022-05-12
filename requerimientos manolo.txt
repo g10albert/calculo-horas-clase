@@ -1,6 +1,0 @@
-hacer funcion que diga el dia que se seleccione en fecha de inicio
-
-comparar eso con nuestros checkboxes y si ese dia no esta seleccionado que diga un error
-en caso de que el dia si este seleccionado se va a verificar las horas que que tiene el input
-y se va a ir sumando y comparando con el total horas, si sobran horas se las asignamos al ultimo dia
-y avisamos

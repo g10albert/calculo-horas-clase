@@ -94,7 +94,7 @@ label {
 /* Estilos para los inputs */
 
 .info-wraper input:not([type='checkbox']):not([type='text']) {
-    width: 150px;
+    width: 15rem;
     display: block;
     margin: auto;
 }
@@ -102,7 +102,7 @@ label {
 .info-wraper input:not([type='checkbox']):enabled {
     outline: none;
     background: white;
-    width: 150px;
+    width: 15rem;
     border: 1.3px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -111,7 +111,7 @@ label {
 }
 
 .excDiv {
-    width: 80px;
+    width: 8rem;
     margin: auto;
     line-height: 1;
     margin-top: 10px;
@@ -131,6 +131,7 @@ label {
 
 .select-wraper h3 {
     text-align: center;
+    margin-bottom: 2rem;
 }
 
 .wraper input:checked {
@@ -139,7 +140,7 @@ label {
 
 .select-wraper label {
     width: 45%;
-    margin-bottom: 13px;
+    margin-bottom: 1.3rem;
 }
 
 .select-wraper input:not([type='checkbox']) {
