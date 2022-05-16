@@ -1,5 +1,3 @@
-/* Importando fuents y creando variables */
-
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
 :root {
@@ -27,37 +25,58 @@ body {
     box-sizing: border-box;
     font-family: var(--fnt-p);
     font-weight: var(--weight-p);
-    background: #FAF2DE;
     text-align: center;
+    background: #FAF2DE;
     color: var(--clr-main);
     position: relative;
+    display: grid;
+    place-items: center;
+}
+
+.alerts {
+    position: fixed;
+    top: 0;
+    font-size: 2rem;
+    width: 100%;
+    margin-bottom: 4rem;
+}
+
+.alert-success {
+    background: rgb(13, 196, 13);
+}
+
+.alert-danger {
+    background: red;
+}
+
+.alert-warning {
+    background: yellow;
 }
 
 /* Estilos del titulo */
 
 .title {
-    padding: 5rem 0;
+    padding: 1em 1em;
     font-family: var(--fnt-h);
     font-size: 3rem;
 }
 
-/* Estilos de la caja de login */
+/* Estilos de la caja de insertar datos */
 
 .wraper {
     width: 80%;
     background: var(--clr-bg);
-    margin: 5em auto 0 auto;
+    margin: 1em auto 0 auto;
     box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
-    min-height: 25rem;
     padding-top: 3rem;
 }
 
-.info-wraper label {
+.wraper label {
     font-size: 2rem;
 }
 
-.info-wraper input {
+.wraper input {
     border: none;
     outline: none;
     background: white;
@@ -70,7 +89,7 @@ body {
     margin: 1em auto;
 }
 
-.info-wraper input:focus {
+.wraper input:focus {
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.15);
 }
 
@@ -86,31 +105,110 @@ body {
     margin: 1.8em 0;
 }
 
+/* Estilos para mostrar fechas */
+
+.fecha-titulo {
+    padding: 1em 1em;
+    font-family: var(--fnt-h);
+    font-size: 3rem;
+}
+
+.fechas {
+    width: 80%;
+    background: var(--clr-bg);
+    margin: 2em auto 0 auto;
+    box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    margin-bottom: 4em;
+}
+
+.fechas .fechas-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.dia_festivo {
+    font-size: 1.3rem;
+    margin-bottom: 1.5em;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+.btn {
+    padding: .7rem;
+    border-radius: 2rem;
+    font-size: 1rem;
+}
+
+.edit_btn {
+    background: #1b1be7;
+    margin-right: 1em;
+}
+
+.delete_btn {
+    background: #F32013;
+}
+
 /* Estilos para pantallas mayores a 768px */
 
 @media (min-width: 768px) {
+
     /* Estilos del titulo */
 
     .title {
-        padding: 5rem 0;
+        padding: 5rem 0 1rem 0;
         font-family: var(--fnt-h);
         font-size: 3rem;
     }
 
-    /* Estilos de la caja de login */
+    /* Estilos de la caja de insertar datos */
 
     .wraper {
-        width: 50%;
+        width: 59%;
         margin: 3em auto 0 auto;
     }
 
-    .info-wraper input {
-        font-size: 1.6rem;
+    .wraper input {
+        font-size: 1.7rem;
     }
 
     .wraper .btn {
         border-radius: .7rem;
         font-size: 1.5rem;
+        margin: 0 0 2.5rem 0;
+    }
+
+    /* Estilos para mostrar fechas */
+
+    .fechas {
+        width: 59%;
+    }
+
+    .fechas .fechas-info {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .dia_festivo {
+        font-size: 1.7rem;
+        margin-bottom: 1.5em;
+    }
+
+    .btn {
+        padding: .7rem 1.5rem;
+        border-radius: 2rem;
+        font-size: 1.4rem;
+    }
+
+    .edit_btn {
+        background: #1b1be7;
+    }
+
+    .delete_btn {
+        background: #F32013;
     }
 }
 
@@ -123,13 +221,13 @@ body {
         font-size: 4rem;
     }
 
-    /* Estilos de la caja de login */
+    /* Estilos de la caja de insertar datos */
 
     .wraper {
-        width: 30%;
+        width: 50%;
     }
 
-    .info-wraper input {
+    .wraper input {
         display: block;
         margin: 1em auto;
     }
@@ -138,6 +236,22 @@ body {
         width: 40%;
         min-height: 4.5ch;
         border-radius: .7rem;
-        margin: 1.8em 0 2.5em 0;
+        margin: 1em 0 2.5em 0;
+    }
+
+    /* Estilos para mostrar fechas */
+
+    .fechas {
+        width: 50%;
+    }
+
+    .dia_festivo {
+        font-size: 1.8rem;
+    }
+
+    .btn {
+        padding: .7rem 1.5rem;
+        border-radius: 2rem;
+        font-size: 1.4rem;
     }
 }
