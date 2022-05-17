@@ -2,6 +2,8 @@
 
 // const moment = require("moment");
 
+// const moment = require("moment");
+
 //const moment = require("moment");
 
 
@@ -19,6 +21,7 @@ const copiarBtn = document.querySelector('.copiar-boton');
 const infoCurso = document.querySelector('#infoCurso');
 const mostrarFeriados = document.querySelector('.mostrar-feriados');
 const checkBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)');
+const mes = document.querySelector("#lista-mes")
 
 const excluirDias = document.querySelector('#excDias');
 const datePicker = new Datepicker('#datepicker', {
@@ -28,7 +31,7 @@ const datePicker = new Datepicker('#datepicker', {
     })()
 });
 const datePickerInput = document.querySelector('.excluir')
-const orderedList = document.querySelector('#vago')
+const orderedList = document.querySelector('#lista')
 
 // Conexión con la base de datos para crear array de dias feriados
 
@@ -137,6 +140,8 @@ btnProcesar.addEventListener('click', () => {
         let diasNoLabora = []
         let noLabora = -1;
 
+        showMonthInList(moment(nextDate))
+
         while (totalHorasProcesadas < +inputTotalHoras.value) {
 
             if (isDateOnSelectedDays(nextDate, diasSeleccionados)) {
@@ -144,6 +149,7 @@ btnProcesar.addEventListener('click', () => {
                 if (!feriadosExcluidos.includes(nextDate.format('MM-DD-YYYY'))) {
                     cantidadDiasLaborar++;
                     totalHorasProcesadas += getValueFromSelectedDate(nextDate, diasSeleccionados);
+                    // showMonthInList(moment(nextDate))
                     showDayInList(totalHorasProcesadas, moment(nextDate).format('MM-DD-YYYY dddd'))
                 }
 
@@ -193,6 +199,14 @@ btnProcesar.addEventListener('click', () => {
             if (!infoCurso.classList.contains('activos')) {
                 infoCurso.classList.toggle('activos');
             }
+            if (!copiarBtn.classList.contains('activos')) {
+                copiarBtn.classList.toggle('activos')
+            }
+        }
+        if (diasDeClase != '') {
+            if (!diasDeClase.classList.contains('activos')) {
+                diasDeClase.classList.toggle('activos')
+            }
         }
 
         infoCurso.textContent = infoFinalCurso;
@@ -206,14 +220,6 @@ btnProcesar.addEventListener('click', () => {
     // Inyectandole al parrafo los dias que se seleccionaron para dar clases
 
     const diasFinales = []
-
-    if (!diasDeClase.classList.contains('activos')) {
-        diasDeClase.classList.toggle('activos')
-    }
-
-    if (!copiarBtn.classList.contains('activos')) {
-        copiarBtn.classList.toggle('activos')
-    }
 
     dia_id: if (inputLunVieCheck.checked) {
         diasDeClase.textContent = 'Lunes a viernes';
@@ -246,16 +252,43 @@ function getValueFromSelectedDate(date, diasSeleccionados) {
     return +diasSeleccionados[moment(date).day()];
 }
 
+// Mostrar mes en la caja de fechas
+
+function showMonthInList(nextDate) {
+
+    let mesAnterior = nextDate.subtract(1, 'M').format('MMMM')
+    let mesActual = nextDate.format('MMMM');
+
+    if (mesActual != mesAnterior) {
+        console.log('hola')
+    }
+
+    orderedList.innerHTML += mesActual;
+
+}
+
 // Mostrar la fecha y horas de clases que se han dado hasta el momento
 
 function showDayInList(totalHorasProcesadas, nextDate) {
+
+    // Evitar que se registren mas horas del total del curso al imprimir fechas
+
+    let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
+
+    if (totalHorasProcesadas > inputTotalHoras.value) {
+        totalHorasProcesadas -= horasSobran;
+    }
+
+    // Generar los elementos que muestran las fechas
+
     let listItem =
         `<li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
             ${nextDate}
         </div>
         <span class="badge bg-primary rounded-pill horas">${totalHorasProcesadas}</span>
-    </li>`
+        </li>`;
+
     orderedList.innerHTML += listItem;
 }
 
@@ -338,7 +371,7 @@ listCheckboxes.forEach((checkbox) => {
             target.nextElementSibling.nextElementSibling.value = null;
         }
     })
-    
+
 });
 
 // Haciendo que la fecha de inicio sea la de este momento al cargar la pagina
@@ -359,10 +392,10 @@ nuevoFormulario.addEventListener('click', () => {
     inputFechaFinal.value = '';
     inputDiasLaborar.value = '';
     diasDeClase.textContent = '';
-    diasDeClase.classList.remove('activos');
     infoCurso.textContent = '';
+    diasDeClase.classList.remove('activos');
     infoCurso.classList.remove('activos');
-    copiarBtn.classList.remove('activos')
+    copiarBtn.classList.remove('activos');
     orderedList.textContent = '';
 
     const fullWeekCheckBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]')

@@ -13,10 +13,15 @@ if (isset($_POST['guardar'])) {
 
     if (!empty($date)) {
         $consulta_insert = "INSERT INTO dias_festivos (dia_festivo) VALUES ('$date')";
-        $resultado_insert = mysqli_query($conexion, $consulta_insert) or die("Error en el query");
+        $resultado_insert = mysqli_query($conexion, $consulta_insert);
 
-        $_SESSION['message'] = "Se ingresó el registro";
-        $_SESSION['msg_type'] = "success";
+        if (!$resultado_insert) {
+            $_SESSION['message'] = "La fecha ya existe";
+            $_SESSION['msg_type'] = 'danger';
+        } else {
+            $_SESSION['message'] = "Se ingresó el registro";
+            $_SESSION['msg_type'] = "success";
+        }
 
         header("location: administrador.php");
     } else {

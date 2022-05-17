@@ -47,7 +47,7 @@
 
     $conexion = new mysqli("localhost", "root", "", "infotep_cursos") or die(mysqli_error($mysqli));
 
-    $consulta_datos = "SELECT * FROM dias_festivos";
+    $consulta_datos = "SELECT * FROM dias_festivos ORDER BY dia_festivo DESC";
     $resultado_datos = mysqli_query($conexion, $consulta_datos) or die("Error en el query");
     ?>
 
