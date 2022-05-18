@@ -219,6 +219,12 @@ label {
     color: var(--clr-main) !important;
 }
 
+#lista-mes {
+    text-align: left;
+    text-indent: 1rem;
+    font-size: 2rem;
+}
+
 .horas {
     background: var(--clr-main) !important;
 }
@@ -268,7 +274,7 @@ label {
             "date-wraper date-wraper";
     }
 
-/* Estilos para el primer div (Información del curso) */
+    /* Estilos para el primer div (Información del curso) */
 
     .info-wraper {
         grid-area: info-wraper;
@@ -288,8 +294,8 @@ label {
     .info-wraper .input {
         font-size: 1.5rem;
     }
-    
-/* Estilos para el segundo div (Selección de días) */
+
+    /* Estilos para el segundo div (Selección de días) */
 
     .select-wraper {
         margin-bottom: 0rem;
@@ -353,7 +359,7 @@ label {
 
 @media (min-width: 1024px) {
 
-/* Haciendo que los divs se muestren en 3 con flex */
+    /* Haciendo que los divs se muestren en 3 con flex */
 
     .wraper {
         display: flex;

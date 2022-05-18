@@ -140,7 +140,9 @@ btnProcesar.addEventListener('click', () => {
         let diasNoLabora = []
         let noLabora = -1;
 
-        showMonthInList(moment(nextDate))
+        // showMonthInList(moment(nextDate));
+
+        let horasMesArray = []
 
         while (totalHorasProcesadas < +inputTotalHoras.value) {
 
@@ -149,7 +151,35 @@ btnProcesar.addEventListener('click', () => {
                 if (!feriadosExcluidos.includes(nextDate.format('MM-DD-YYYY'))) {
                     cantidadDiasLaborar++;
                     totalHorasProcesadas += getValueFromSelectedDate(nextDate, diasSeleccionados);
-                    // showMonthInList(moment(nextDate))
+
+
+                    // Insertar mes cuando cambia
+                    
+                    if (mes.textContent.trim() != nextDate.format('MMMM')) {
+                        
+                        showMonthInList(moment(nextDate));
+
+                        // contar horas que se dan por mes
+
+
+
+
+
+                        let horasMes = 0;
+
+                        console.log(nextDate.format('MMMM'));
+                        horasMes += totalHorasProcesadas;
+                        console.log(horasMes);
+                        horasMesArray.push(horasMes);
+                        console.log(horasMesArray);
+
+
+
+
+                    }
+
+                    mes.textContent = nextDate.format('MMMM');
+
                     showDayInList(totalHorasProcesadas, moment(nextDate).format('MM-DD-YYYY dddd'))
                 }
 
@@ -256,14 +286,14 @@ function getValueFromSelectedDate(date, diasSeleccionados) {
 
 function showMonthInList(nextDate) {
 
-    let mesAnterior = nextDate.subtract(1, 'M').format('MMMM')
     let mesActual = nextDate.format('MMMM');
 
-    if (mesActual != mesAnterior) {
-        console.log('hola')
-    }
+    let mesItem =
+        `<div id="lista-mes">${mesActual}</div>`;
 
-    orderedList.innerHTML += mesActual;
+    mes.innerHTML += mesActual;
+
+    orderedList.innerHTML += mesItem;
 
 }
 
