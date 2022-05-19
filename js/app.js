@@ -143,6 +143,14 @@ btnProcesar.addEventListener('click', () => {
         // showMonthInList(moment(nextDate));
 
         let horasMesArray = []
+        let mesInicial = moment(inicio);
+        let totalHorasProcesadasMes = 0;
+        let newMonth = 0;
+
+        let prueba = [];
+
+        let mesHoras = [];
+        let horasPorMes = [];
 
         while (totalHorasProcesadas < +inputTotalHoras.value) {
 
@@ -152,29 +160,42 @@ btnProcesar.addEventListener('click', () => {
                     cantidadDiasLaborar++;
                     totalHorasProcesadas += getValueFromSelectedDate(nextDate, diasSeleccionados);
 
+                    // contar horas que se dan por mes
+
+                    let horasMes = 0;
+                    totalHorasProcesadasMes += getValueFromSelectedDateMonth(nextDate, diasSeleccionados);
+                    newMonth = getValueFromSelectedDateMonth(nextDate, diasSeleccionados);
+
+                    if (mesInicial.format('MMMM') == nextDate.format('MMMM')) {
+
+                        horasMes += totalHorasProcesadasMes;
+                        horasMesArray.push(horasMes);
+
+                        prueba.push(horasMesArray[horasMesArray.length - 1])
+
+                    } else {
+
+                        horasPorMes.push(horasMesArray[horasMesArray.length - 1]);
+
+                        totalHorasProcesadasMes = newMonth;
+                        horasMesArray = [];
+                        mesInicial.add(1, 'M');
+
+                    }
+
+                    // Incluir meses en array para mostrarlo en el programa
+
+                    if (!mesHoras.includes(mesInicial.format('MMMM'))) {
+
+                        mesHoras.push(mesInicial.format('MMMM'));
+
+                    }
 
                     // Insertar mes cuando cambia
-                    
+
                     if (mes.textContent.trim() != nextDate.format('MMMM')) {
-                        
+
                         showMonthInList(moment(nextDate));
-
-                        // contar horas que se dan por mes
-
-
-
-
-
-                        let horasMes = 0;
-
-                        console.log(nextDate.format('MMMM'));
-                        horasMes += totalHorasProcesadas;
-                        console.log(horasMes);
-                        horasMesArray.push(horasMes);
-                        console.log(horasMesArray);
-
-
-
 
                     }
 
@@ -193,6 +214,8 @@ btnProcesar.addEventListener('click', () => {
             }
             nextDate = nextDate.add(1, 'days')
         }
+
+        horasPorMes.push(prueba[prueba.length - 1]);
 
         let infoFinalCurso = '';
         let ultimoDia = 0;
@@ -216,13 +239,21 @@ btnProcesar.addEventListener('click', () => {
 
             // Mostrar informacion del curso dependiendo de si hay informacion o no
 
+            horasPorMes.pop()
+            horasPorMes.push(prueba[prueba.length - 1] - horasSobran);
+            console.log(horasPorMes);
+
             if (ultimoDia > 0) {
                 infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
             }
         }
 
         if (diasNoLabora.length != 0) {
-            infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}`
+            infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}. `
+        }
+
+        for (let i = 0; i < mesHoras.length; i++) {
+            infoFinalCurso += `En ${mesHoras[i]} se impartirán ${horasPorMes[i]} horas.`
         }
 
         if (ultimoDia > 0 || diasNoLabora.length != 0) {
@@ -233,6 +264,7 @@ btnProcesar.addEventListener('click', () => {
                 copiarBtn.classList.toggle('activos')
             }
         }
+
         if (diasDeClase != '') {
             if (!diasDeClase.classList.contains('activos')) {
                 diasDeClase.classList.toggle('activos')
@@ -279,6 +311,11 @@ function isDateOnSelectedDays(date, diasSeleccionados) {
 }
 function getValueFromSelectedDate(date, diasSeleccionados) {
     // obtener valor del input correspondiente al dia seleccionado
+    return +diasSeleccionados[moment(date).day()];
+}
+
+function getValueFromSelectedDateMonth(date, diasSeleccionados) {
+    // obtener valor del input correspondiente al dia seleccionado para contrar las horas por mes
     return +diasSeleccionados[moment(date).day()];
 }
 

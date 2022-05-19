@@ -232,15 +232,13 @@ label {
 .txt-info {
     background: white;
     width: 90%;
-    margin: auto;
-    margin-bottom: 1.5rem;
-    margin-top: 15px;
+    margin: .5em auto;
     border: 1px solid;
 }
 
 .copiar-boton {
     all: unset;
-    margin: 2rem 0;
+    margin: 1em 0;
     background: var(--clr-main);
     width: 30%;
     color: white;
