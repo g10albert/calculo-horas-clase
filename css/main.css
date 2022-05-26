@@ -385,3 +385,14 @@ label {
         margin-right: 2.2em;
     }
 }
+
+.horas-mes {
+    font-size: 2rem;
+    color: var(--clr-main);
+    background: #000;
+}
+
+.lista-mes {
+    background: #000;
+    display: inline-block !important;
+}

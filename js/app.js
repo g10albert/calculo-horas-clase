@@ -140,14 +140,12 @@ btnProcesar.addEventListener('click', () => {
         let diasNoLabora = []
         let noLabora = -1;
 
-        // showMonthInList(moment(nextDate));
-
         let horasMesArray = []
         let mesInicial = moment(inicio);
         let totalHorasProcesadasMes = 0;
         let newMonth = 0;
 
-        let prueba = [];
+        let horasPorMesAntes = [];
 
         let mesHoras = [];
         let horasPorMes = [];
@@ -171,7 +169,7 @@ btnProcesar.addEventListener('click', () => {
                         horasMes += totalHorasProcesadasMes;
                         horasMesArray.push(horasMes);
 
-                        prueba.push(horasMesArray[horasMesArray.length - 1])
+                        horasPorMesAntes.push(horasMesArray[horasMesArray.length - 1])
 
                     } else {
 
@@ -199,6 +197,8 @@ btnProcesar.addEventListener('click', () => {
 
                     }
 
+                    console.log(mesHoras);
+
                     mes.textContent = nextDate.format('MMMM');
 
                     showDayInList(totalHorasProcesadas, moment(nextDate).format('MM-DD-YYYY dddd'))
@@ -213,9 +213,16 @@ btnProcesar.addEventListener('click', () => {
 
             }
             nextDate = nextDate.add(1, 'days')
+
         }
 
-        horasPorMes.push(prueba[prueba.length - 1]);
+        horasPorMes.push(horasPorMesAntes[horasPorMesAntes.length - 1]);
+
+
+        for (let i = 0; i < horasPorMes.length; i++) {
+
+            showHoursInList(horasPorMes[i])
+        }
 
         let infoFinalCurso = '';
         let ultimoDia = 0;
@@ -238,10 +245,6 @@ btnProcesar.addEventListener('click', () => {
             ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
 
             // Mostrar informacion del curso dependiendo de si hay informacion o no
-
-            horasPorMes.pop()
-            horasPorMes.push(prueba[prueba.length - 1] - horasSobran);
-            console.log(horasPorMes);
 
             if (ultimoDia > 0) {
                 infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
@@ -322,16 +325,20 @@ function getValueFromSelectedDateMonth(date, diasSeleccionados) {
 // Mostrar mes en la caja de fechas
 
 function showMonthInList(nextDate) {
-
     let mesActual = nextDate.format('MMMM');
 
-    let mesItem =
-        `<div id="lista-mes">${mesActual}</div>`;
-
-    mes.innerHTML += mesActual;
+    let mesItem = `<div id="lista-mes">${mesActual}</div>`;
 
     orderedList.innerHTML += mesItem;
 
+}
+
+function showHoursInList(horas) {
+    let horasMesActual = horas;
+
+    let horasItem = `<div id="" class="horas-mes">${horasMesActual}</div>`;
+
+    orderedList.innerHTML += horasItem
 }
 
 // Mostrar la fecha y horas de clases que se han dado hasta el momento
