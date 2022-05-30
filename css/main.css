@@ -220,10 +220,13 @@ label {
 }
 
 #lista-mes {
-    text-align: left;
+    /* text-align: left; */
     text-indent: 1rem;
     font-size: 2rem;
+    word-spacing: 15ch;
 }
+
+
 
 .horas {
     background: var(--clr-main) !important;
@@ -392,7 +395,3 @@ label {
     background: #000;
 }
 
-.lista-mes {
-    background: #000;
-    display: inline-block !important;
-}
