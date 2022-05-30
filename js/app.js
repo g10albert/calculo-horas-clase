@@ -150,6 +150,8 @@ btnProcesar.addEventListener('click', () => {
         let mesHoras = [];
         let horasPorMes = [];
 
+        // Obtener datos para luego mostrarlos en pantalla
+
         while (totalHorasProcesadas < +inputTotalHoras.value) {
 
             if (isDateOnSelectedDays(nextDate, diasSeleccionados)) {
@@ -220,7 +222,6 @@ btnProcesar.addEventListener('click', () => {
 
 
         for (let i = 0; i < horasPorMes.length; i++) {
-
             showHoursInList(horasPorMes[i])
         }
 
