@@ -413,31 +413,55 @@ function getValueFromSelectedDateMonth(date, diasSeleccionados) {
 
 let accordionNumber = 1
 
-function showMonthInList(nextDate, horas) {
-    let mesActual = nextDate.format('MMMM');
+// function showMonthInList(nextDate, horas) {
+//     let mesActual = nextDate.format('MMMM');
 
+//     let mesItem =
+//         `<div class="accordion-item">
+//         <h2 class="accordion-header">
+//             <button class="accordion-button" id="lista-mes" type="button"
+//                 data-bs-toggle="collapse"
+//                 data-bs-target="#panelsStayOpen-collapse${accordionNumber}" aria-expanded="true">
+//                 ${mesActual} ${horas}
+//             </button>
+//         </h2>
+//         <div id="panelsStayOpen-collapse${accordionNumber}"
+//             class="accordion-collapse collapse show">
+//             <div class="accordion-body">
+
+//             </div>
+//         </div>
+//     </div>`;
+
+
+
+//     orderedList.innerHTML += mesItem;
+
+//     accordionNumber += 1
+// }
+
+function mostrarInformacionOrganizada(datos) {
     let mesItem =
         `<div class="accordion-item">
-        <h2 class="accordion-header">
-            <button class="accordion-button" id="lista-mes" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#panelsStayOpen-collapse${accordionNumber}" aria-expanded="true">
-                ${mesActual} ${horas}
-            </button>
-        </h2>
-        <div id="panelsStayOpen-collapse${accordionNumber}"
-            class="accordion-collapse collapse show">
-            <div class="accordion-body">
-                
+            <h2 class="accordion-header">
+                <button class="accordion-button" id="lista-mes" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#panelsStayOpen-collapse${accordionNumber}" aria-expanded="true">
+                    ${mesActual} ${horas}
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapse${accordionNumber}"
+                class="accordion-collapse collapse show">
+                <div class="accordion-body">
+                    <div class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            ${nextDate}
+                        </div>
+                        <span class="badge bg-primary rounded-pill horas">${totalHorasProcesadas}</span>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>`;
-
-
-
-    orderedList.innerHTML += mesItem;
-
-    accordionNumber += 1
+        </div>`;
 }
 
 function addObjectToArray(objeto, array) {
@@ -475,7 +499,7 @@ function showDayInList(totalHorasProcesadas, nextDate, month) {
     addObjectToArray(
         { fecha: nextDate, hora: totalHorasProcesadas, mes: mesActual }, arrayAgrupar
     )
-// console.log(arrayAgrupar);
+    // console.log(arrayAgrupar);
 
     console.log(groupByMonth)
 
