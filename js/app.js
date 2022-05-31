@@ -31,7 +31,6 @@ const datePicker = new Datepicker('#datepicker', {
 });
 const datePickerInput = document.querySelector('.excluir')
 const orderedList = document.querySelector('#lista')
-const laseguetaquecarro = document.querySelector('.laseguetaquecarro')
 
 // Conexión con la base de datos para crear array de dias feriados
 
@@ -287,7 +286,7 @@ btnProcesar.addEventListener('click', () => {
                 mostrarMes = mostrarMes + 1
             }
 
-            showDayInList(totalHorasProcesadasArrayProcesado[i], nextDateArrayProcesado[i])
+            showDayInList(totalHorasProcesadasArrayProcesado[i], nextDateArrayProcesado[i], moment(siguienteFecha))
 
         }
 
@@ -417,33 +416,41 @@ let accordionNumber = 1
 function showMonthInList(nextDate, horas) {
     let mesActual = nextDate.format('MMMM');
 
-    let horasMesActual = horas;
-
-    // let mesItem = `<div id="lista-mes">${mesActual} ${horasMesActual}</div>`;
-    let mesItem = `<div class="accordion-item">
+    let mesItem =
+        `<div class="accordion-item">
         <h2 class="accordion-header">
             <button class="accordion-button" id="lista-mes" type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#panelsStayOpen-collapse${accordionNumber}" aria-expanded="true">
-                ${mesActual} ${horasMesActual}
+                ${mesActual} ${horas}
             </button>
         </h2>
         <div id="panelsStayOpen-collapse${accordionNumber}"
-            class="accordion-collapse collapse show laseguetaquecarro">
+            class="accordion-collapse collapse show">
             <div class="accordion-body">
                 
             </div>
         </div>
     </div>`;
 
+
+
     orderedList.innerHTML += mesItem;
 
     accordionNumber += 1
 }
 
+function addObjectToArray(objeto, array) {
+    array.push(objeto)
+}
+
+let arrayAgrupar = []
+
 // Mostrar la fecha y horas de clases que se han dado hasta el momento
 
-function showDayInList(totalHorasProcesadas, nextDate) {
+function showDayInList(totalHorasProcesadas, nextDate, month) {
+
+    let mesActual = month.subtract(1, 'M').format('MMMM');
 
     // Evitar que se registren mas horas del total del curso al imprimir fechas
 
@@ -464,7 +471,32 @@ function showDayInList(totalHorasProcesadas, nextDate) {
         </li>`;
 
     orderedList.innerHTML += listItem;
+
+    addObjectToArray(
+        { fecha: nextDate, hora: totalHorasProcesadas, mes: mesActual }, arrayAgrupar
+    )
+// console.log(arrayAgrupar);
+
+    console.log(groupByMonth)
+
+    arrayAgrupar.reduce((group, item) => {
+        const { mes } = item;
+        group[mes] = group[mes] ?? [];
+        group[mes].push(item);
+        console.log(group);
+        return group;
+    }, {})
 }
+
+
+const groupByMonth = arrayAgrupar.reduce((group, item) => {
+    const { mes } = item;
+    console.log(mes);
+    group[mes] = group[mes] ?? [];
+    group[mes].push(item);
+    console.log(group);
+    return group;
+}, {})
 
 inputFechaInicio.addEventListener('change', () => {
     let dia = moment(inputFechaInicio.value).format('dddd');
