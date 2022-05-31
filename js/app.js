@@ -31,6 +31,7 @@ const datePicker = new Datepicker('#datepicker', {
 });
 const datePickerInput = document.querySelector('.excluir')
 const orderedList = document.querySelector('#lista')
+const laseguetaquecarro = document.querySelector('.laseguetaquecarro')
 
 // Conexión con la base de datos para crear array de dias feriados
 
@@ -277,7 +278,7 @@ btnProcesar.addEventListener('click', () => {
 
         for (let i = 0; i < nextDateArrayProcesado.length; i++) {
 
-            if (nextDateArrayMesProcesado[i] != nextDateArrayMesProcesado[i-1]) {
+            if (nextDateArrayMesProcesado[i] != nextDateArrayMesProcesado[i - 1]) {
 
                 showMonthInList(moment(siguienteFecha), showHoursInListArray[mostrarMes])
 
@@ -287,7 +288,7 @@ btnProcesar.addEventListener('click', () => {
             }
 
             showDayInList(totalHorasProcesadasArrayProcesado[i], nextDateArrayProcesado[i])
-            
+
         }
 
 
@@ -411,16 +412,33 @@ function getValueFromSelectedDateMonth(date, diasSeleccionados) {
 
 // Mostrar mes en la caja de fechas
 
+let accordionNumber = 1
+
 function showMonthInList(nextDate, horas) {
     let mesActual = nextDate.format('MMMM');
 
     let horasMesActual = horas;
 
-    // let mesItem = `<div id="lista-mes">${mesActual}</div> <div id="lista-mes">${horasMesActual} </div>`;
-    let mesItem = `<div id="lista-mes">${mesActual} ${horasMesActual}</div>`;
+    // let mesItem = `<div id="lista-mes">${mesActual} ${horasMesActual}</div>`;
+    let mesItem = `<div class="accordion-item">
+        <h2 class="accordion-header">
+            <button class="accordion-button" id="lista-mes" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapse${accordionNumber}" aria-expanded="true">
+                ${mesActual} ${horasMesActual}
+            </button>
+        </h2>
+        <div id="panelsStayOpen-collapse${accordionNumber}"
+            class="accordion-collapse collapse show laseguetaquecarro">
+            <div class="accordion-body">
+                
+            </div>
+        </div>
+    </div>`;
 
     orderedList.innerHTML += mesItem;
 
+    accordionNumber += 1
 }
 
 // Mostrar la fecha y horas de clases que se han dado hasta el momento
