@@ -126,7 +126,7 @@ btnProcesar.addEventListener('click', () => {
 
     let feriadosExcluidos = [...new Set([...feriados, ...diasExcluidos])]
 
-    let totalHorasProcesadas = 0;
+    let totalHorasProcesadas = +inputTotalHoras.value;
     let cantidadDiasLaborar = 0;
 
     // Procesar informacion dependiendo en los dias seleccionados y horas a impartir
@@ -170,14 +170,14 @@ btnProcesar.addEventListener('click', () => {
 
         let horaPorDia = 0
 
-        while (totalHorasProcesadas < +inputTotalHoras.value) {
+        while (totalHorasProcesadas > 0) {
 
             if (isDateOnSelectedDays(nextDate, diasSeleccionados)) {
 
                 if (!feriadosExcluidos.includes(nextDate.format('MM-DD-YYYY'))) {
                     cantidadDiasLaborar++;
                     horaPorDia = getValueFromSelectedDate(nextDate, diasSeleccionados);
-                    totalHorasProcesadas += horaPorDia;
+                    totalHorasProcesadas -= horaPorDia;
 
                     horasPorDiaArray.push(horaPorDia)
 
@@ -242,6 +242,15 @@ btnProcesar.addEventListener('click', () => {
 
         }
 
+        // console.log(totalHorasProcesadasArray);
+
+        // if (totalHorasProcesadasArray[totalHorasProcesadasArray.length - 1] < 0) {
+        //     totalHorasProcesadasArray.pop()
+        //     totalHorasProcesadasArray.push(0)
+        //     console.log(totalHorasProcesadasArray);
+        // }
+        // console.log(totalHorasProcesadasArray[totalHorasProcesadasArray.length - 1]);
+
         horasPorMes.push(horasPorMesAntes[horasPorMesAntes.length - 1]);
 
 
@@ -281,6 +290,8 @@ btnProcesar.addEventListener('click', () => {
             nextDateArrayMesProcesado.push(nextDateArrayMes[i])
         }
 
+        console.log(totalHorasProcesadasArrayProcesado[totalHorasProcesadasArrayProcesado.length - 1]);
+
         // Crear while loop que va a controlar cuando se muestra cada informacion al usuario
 
         let siguienteFecha = moment(nextDateArrayMesProcesado[0]).format('MM')
@@ -301,7 +312,7 @@ btnProcesar.addEventListener('click', () => {
             showDayInList(totalHorasProcesadasArrayProcesado[i], nextDateArrayProcesado[i], moment(siguienteFecha), horasPorDiaArray[i])
 
         }
-        
+
         let mesesOrganizados = arrayAgrupar.reduce((group, item) => {
             const { mes } = item;
             group[mes] = group[mes] ?? [];
@@ -337,7 +348,9 @@ btnProcesar.addEventListener('click', () => {
 
         // Proceso cuando las horas procesadas son mas que el total de horas del curso
 
-        if (totalHorasProcesadas > +inputTotalHoras.value) {
+        console.log();
+
+        if (totalHorasProcesadasArrayProcesado[totalHorasProcesadasArrayProcesado.length - 1] < 0) {
 
             if (nextDate.day() in diasSeleccionados) {
             } else {
@@ -437,17 +450,26 @@ function mostrarInformacionOrganizada(datos) {
 
     let mesItem = ''
 
-    console.log(datos);
+    let horasTotalMesFinal = 0
 
     for (let key in datos) {
 
         let horasTotalMes = 0
 
+
+
         for (let item2 of datos[key]) {
-            horasTotalMes += item2.horaDia
+            horasTotalMes += item2.horaDia;
         }
 
-        
+        horasTotalMesFinal += horasTotalMes;
+
+
+        let horasRestan = horasTotalMesFinal - (+inputTotalHoras.value);
+
+        if (horasTotalMesFinal > +inputTotalHoras.value) {
+            horasTotalMes -= horasRestan;
+        }
 
         mesItem +=
             `<div class="accordion-item">
