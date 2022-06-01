@@ -53,6 +53,8 @@ const MAXIMO_TOTAL_HORAS = 1000;
 const MINIMO_HORAS_DIA = 1;
 const MAXIMO_HORAS_DIA = 12;
 
+let arrayAgrupar = [];
+
 btnProcesar.addEventListener('click', () => {
     // Validar que los campos tengan datos correctos
     if (inputTotalHoras.value === '') {
@@ -92,6 +94,9 @@ btnProcesar.addEventListener('click', () => {
         return;
     }
 
+    horasPorDiaArray = [];
+
+    arrayAgrupar = [];
 
     // Procesar dias en los que el facilitador no dará clases
 
@@ -157,9 +162,13 @@ btnProcesar.addEventListener('click', () => {
 
         let totalHorasProcesadasArray = [];
 
+        let horasPorDiaArray = [];
+
         let nextDateArray = [];
 
         let nextDateArrayMes = [];
+
+        let horaPorDia = 0
 
         while (totalHorasProcesadas < +inputTotalHoras.value) {
 
@@ -167,7 +176,10 @@ btnProcesar.addEventListener('click', () => {
 
                 if (!feriadosExcluidos.includes(nextDate.format('MM-DD-YYYY'))) {
                     cantidadDiasLaborar++;
-                    totalHorasProcesadas += getValueFromSelectedDate(nextDate, diasSeleccionados);
+                    horaPorDia = getValueFromSelectedDate(nextDate, diasSeleccionados);
+                    totalHorasProcesadas += horaPorDia;
+
+                    horasPorDiaArray.push(horaPorDia)
 
                     // contar horas que se dan por mes
 
@@ -279,18 +291,25 @@ btnProcesar.addEventListener('click', () => {
 
             if (nextDateArrayMesProcesado[i] != nextDateArrayMesProcesado[i - 1]) {
 
-                showMonthInList(moment(siguienteFecha), showHoursInListArray[mostrarMes])
+                // showMonthInList(moment(siguienteFecha), showHoursInListArray[mostrarMes])
 
                 siguienteFecha = moment(nextDateArrayMesProcesado[0]).add(mostrarMes + 1, 'M').format('MM');
 
                 mostrarMes = mostrarMes + 1
             }
 
-            showDayInList(totalHorasProcesadasArrayProcesado[i], nextDateArrayProcesado[i], moment(siguienteFecha))
+            showDayInList(totalHorasProcesadasArrayProcesado[i], nextDateArrayProcesado[i], moment(siguienteFecha), horasPorDiaArray[i])
 
         }
+        
+        let mesesOrganizados = arrayAgrupar.reduce((group, item) => {
+            const { mes } = item;
+            group[mes] = group[mes] ?? [];
+            group[mes].push(item);
+            return group;
+        }, {})
 
-
+        mostrarInformacionOrganizada(mesesOrganizados)
 
 
 
@@ -339,11 +358,11 @@ btnProcesar.addEventListener('click', () => {
         }
 
         if (diasNoLabora.length != 0) {
-            infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}. `
+            infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}.`
         }
 
         for (let i = 0; i < mesHoras.length; i++) {
-            infoFinalCurso += `En ${mesHoras[i]} se impartirán ${horasPorMes[i]} horas.`
+            infoFinalCurso += `En ${mesHoras[i]} se impartirán ${horasPorMes[i]} horas. `
         }
 
         if (ultimoDia > 0 || diasNoLabora.length != 0) {
@@ -411,72 +430,72 @@ function getValueFromSelectedDateMonth(date, diasSeleccionados) {
 
 // Mostrar mes en la caja de fechas
 
-let accordionNumber = 1
 
-// function showMonthInList(nextDate, horas) {
-//     let mesActual = nextDate.format('MMMM');
-
-//     let mesItem =
-//         `<div class="accordion-item">
-//         <h2 class="accordion-header">
-//             <button class="accordion-button" id="lista-mes" type="button"
-//                 data-bs-toggle="collapse"
-//                 data-bs-target="#panelsStayOpen-collapse${accordionNumber}" aria-expanded="true">
-//                 ${mesActual} ${horas}
-//             </button>
-//         </h2>
-//         <div id="panelsStayOpen-collapse${accordionNumber}"
-//             class="accordion-collapse collapse show">
-//             <div class="accordion-body">
-
-//             </div>
-//         </div>
-//     </div>`;
-
-
-
-//     orderedList.innerHTML += mesItem;
-
-//     accordionNumber += 1
-// }
+let totalHorasMostrar = 0
 
 function mostrarInformacionOrganizada(datos) {
-    let mesItem =
-        `<div class="accordion-item">
+
+    let mesItem = ''
+
+    console.log(datos);
+
+    for (let key in datos) {
+
+        let horasTotalMes = 0
+
+        for (let item2 of datos[key]) {
+            horasTotalMes += item2.horaDia
+        }
+
+        
+
+        mesItem +=
+            `<div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button" id="lista-mes" type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#panelsStayOpen-collapse${accordionNumber}" aria-expanded="true">
-                    ${mesActual} ${horas}
+                    data-bs-target="#panelsStayOpen-collapse-${key}" aria-expanded="true">
+                    ${key} <div class="">${horasTotalMes}</div>
                 </button>
+                
             </h2>
-            <div id="panelsStayOpen-collapse${accordionNumber}"
+            <div id="panelsStayOpen-collapse-${key}"
                 class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                    <div class="list-group-item d-flex justify-content-between align-items-start">
-                        <div class="ms-2 me-auto">
-                            ${nextDate}
-                        </div>
-                        <span class="badge bg-primary rounded-pill horas">${totalHorasProcesadas}</span>
+                   `;
+
+        for (let item of datos[key]) {
+
+            mesItem +=
+                `<li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        ${item.fecha}
                     </div>
+                    <span class="badge bg-primary rounded-pill horas">${item.horaDia}</span>
+                </li>`;
+        }
+
+        mesItem += `
                 </div>
             </div>
         </div>`;
+    }
+
+
+    orderedList.innerHTML = mesItem
+    totalHorasMostrar += 1
 }
 
 function addObjectToArray(objeto, array) {
     array.push(objeto)
 }
 
-let arrayAgrupar = []
 
 // Mostrar la fecha y horas de clases que se han dado hasta el momento
 
-function showDayInList(totalHorasProcesadas, nextDate, month) {
+function showDayInList(totalHorasProcesadas, nextDate, month, horaDia) {
 
     let mesActual = month.subtract(1, 'M').format('MMMM');
-
-    // Evitar que se registren mas horas del total del curso al imprimir fechas
 
     let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
 
@@ -484,43 +503,12 @@ function showDayInList(totalHorasProcesadas, nextDate, month) {
         totalHorasProcesadas -= horasSobran;
     }
 
-    // Generar los elementos que muestran las fechas
-
-    let listItem =
-        `<li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-            ${nextDate}
-        </div>
-        <span class="badge bg-primary rounded-pill horas">${totalHorasProcesadas}</span>
-        </li>`;
-
-    orderedList.innerHTML += listItem;
-
     addObjectToArray(
-        { fecha: nextDate, hora: totalHorasProcesadas, mes: mesActual }, arrayAgrupar
+        { fecha: nextDate, hora: totalHorasProcesadas, mes: mesActual, horaDia: horaDia }, arrayAgrupar
     )
-    // console.log(arrayAgrupar);
 
-    console.log(groupByMonth)
-
-    arrayAgrupar.reduce((group, item) => {
-        const { mes } = item;
-        group[mes] = group[mes] ?? [];
-        group[mes].push(item);
-        console.log(group);
-        return group;
-    }, {})
 }
 
-
-const groupByMonth = arrayAgrupar.reduce((group, item) => {
-    const { mes } = item;
-    console.log(mes);
-    group[mes] = group[mes] ?? [];
-    group[mes].push(item);
-    console.log(group);
-    return group;
-}, {})
 
 inputFechaInicio.addEventListener('change', () => {
     let dia = moment(inputFechaInicio.value).format('dddd');
