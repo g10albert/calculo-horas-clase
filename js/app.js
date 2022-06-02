@@ -55,6 +55,8 @@ const MAXIMO_HORAS_DIA = 12;
 
 let arrayAgrupar = [];
 
+let contadorTotalHoras = 0
+
 btnProcesar.addEventListener('click', () => {
     // Validar que los campos tengan datos correctos
     if (inputTotalHoras.value === '') {
@@ -97,6 +99,8 @@ btnProcesar.addEventListener('click', () => {
     horasPorDiaArray = [];
 
     arrayAgrupar = [];
+
+    contadorTotalHoras = 0
 
     // Procesar dias en los que el facilitador no dará clases
 
@@ -242,15 +246,6 @@ btnProcesar.addEventListener('click', () => {
 
         }
 
-        // console.log(totalHorasProcesadasArray);
-
-        // if (totalHorasProcesadasArray[totalHorasProcesadasArray.length - 1] < 0) {
-        //     totalHorasProcesadasArray.pop()
-        //     totalHorasProcesadasArray.push(0)
-        //     console.log(totalHorasProcesadasArray);
-        // }
-        // console.log(totalHorasProcesadasArray[totalHorasProcesadasArray.length - 1]);
-
         horasPorMes.push(horasPorMesAntes[horasPorMesAntes.length - 1]);
 
 
@@ -289,8 +284,6 @@ btnProcesar.addEventListener('click', () => {
         for (let i = 0; i < nextDateArrayMes.length; i++) {
             nextDateArrayMesProcesado.push(nextDateArrayMes[i])
         }
-
-        console.log(totalHorasProcesadasArrayProcesado[totalHorasProcesadasArrayProcesado.length - 1]);
 
         // Crear while loop que va a controlar cuando se muestra cada informacion al usuario
 
@@ -348,8 +341,6 @@ btnProcesar.addEventListener('click', () => {
 
         // Proceso cuando las horas procesadas son mas que el total de horas del curso
 
-        console.log();
-
         if (totalHorasProcesadasArrayProcesado[totalHorasProcesadasArrayProcesado.length - 1] < 0) {
 
             if (nextDate.day() in diasSeleccionados) {
@@ -359,19 +350,19 @@ btnProcesar.addEventListener('click', () => {
                 ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
             }
 
-            let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
+            let horasTotalesDadas = totalHorasProcesadas - (+inputTotalHoras.value);
+
+            let horasSobran = Math.abs(-(horasTotalesDadas + (+inputTotalHoras.value)));
 
             ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
 
-            // Mostrar informacion del curso dependiendo de si hay informacion o no
-
             if (ultimoDia > 0) {
-                infoFinalCurso = `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
+                infoFinalCurso = `El ultimo dia de clase se impartirán: ${horasSobran} horas. `;
             }
         }
 
         if (diasNoLabora.length != 0) {
-            infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}.`
+            infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}. `
         }
 
         for (let i = 0; i < mesHoras.length; i++) {
@@ -452,11 +443,11 @@ function mostrarInformacionOrganizada(datos) {
 
     let horasTotalMesFinal = 0
 
+    
+
     for (let key in datos) {
 
         let horasTotalMes = 0
-
-
 
         for (let item2 of datos[key]) {
             horasTotalMes += item2.horaDia;
@@ -485,8 +476,14 @@ function mostrarInformacionOrganizada(datos) {
                 class="accordion-collapse collapse show">
                 <div class="accordion-body">
                    `;
-
+        
         for (let item of datos[key]) {
+            
+            contadorTotalHoras += item.horaDia
+
+            if (contadorTotalHoras > +inputTotalHoras.value) {
+                item.horaDia = horasRestan;
+            }
 
             mesItem +=
                 `<li class="list-group-item d-flex justify-content-between align-items-start">
