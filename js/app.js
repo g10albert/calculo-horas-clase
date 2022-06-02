@@ -341,6 +341,9 @@ btnProcesar.addEventListener('click', () => {
 
         // Proceso cuando las horas procesadas son mas que el total de horas del curso
 
+        let horasTotalesDadas = 0
+        let horasTotalesDadasPositivas = 0
+
         if (totalHorasProcesadasArrayProcesado[totalHorasProcesadasArrayProcesado.length - 1] < 0) {
 
             if (nextDate.day() in diasSeleccionados) {
@@ -350,7 +353,9 @@ btnProcesar.addEventListener('click', () => {
                 ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
             }
 
-            let horasTotalesDadas = totalHorasProcesadas - (+inputTotalHoras.value);
+            horasTotalesDadas = totalHorasProcesadas - (+inputTotalHoras.value);
+
+            horasTotalesDadasPositivas = Math.abs(horasTotalesDadas);
 
             let horasSobran = Math.abs(-(horasTotalesDadas + (+inputTotalHoras.value)));
 
@@ -363,6 +368,17 @@ btnProcesar.addEventListener('click', () => {
 
         if (diasNoLabora.length != 0) {
             infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}. `
+        }
+
+        if (horasTotalesDadasPositivas > inputTotalHoras.value) {
+
+            let horasDeSobra = horasTotalesDadasPositivas - inputTotalHoras.value;
+
+            let holaamigo = horasPorMes[horasPorMes.length - 1] - horasDeSobra
+
+            horasPorMes.pop()
+
+            horasPorMes.push(holaamigo)
         }
 
         for (let i = 0; i < mesHoras.length; i++) {
@@ -443,7 +459,7 @@ function mostrarInformacionOrganizada(datos) {
 
     let horasTotalMesFinal = 0
 
-    
+
 
     for (let key in datos) {
 
@@ -476,9 +492,9 @@ function mostrarInformacionOrganizada(datos) {
                 class="accordion-collapse collapse show">
                 <div class="accordion-body">
                    `;
-        
+
         for (let item of datos[key]) {
-            
+
             contadorTotalHoras += item.horaDia
 
             if (contadorTotalHoras > +inputTotalHoras.value) {
