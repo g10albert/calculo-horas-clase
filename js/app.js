@@ -35,15 +35,15 @@ const orderedList = document.querySelector('#lista')
 // Conexión con la base de datos para crear array de dias feriados
 
 const feriados = [];
-// async function fetchDates() {
-//     const response = await fetch('http://localhost/manolo_api/');
-//     const dates = await response.json();
-//     for (let i = 0; i < dates.length; i++) {
-//         feriados.push(moment(dates[i].dia_festivo).format('MM-DD-YYYY'))
-//     }
-// }
+async function fetchDates() {
+    const response = await fetch('http://localhost/manolo_api/');
+    const dates = await response.json();
+    for (let i = 0; i < dates.length; i++) {
+        feriados.push(moment(dates[i].dia_festivo).format('MM-DD-YYYY'))
+    }
+}
 
-// fetchDates();
+fetchDates();
 
 // Validar que no se pongan datos menores o menores de los permitidos
 
@@ -315,25 +315,6 @@ btnProcesar.addEventListener('click', () => {
 
         mostrarInformacionOrganizada(mesesOrganizados)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         let infoFinalCurso = '';
         let ultimoDia = 0;
 
@@ -385,20 +366,14 @@ btnProcesar.addEventListener('click', () => {
             infoFinalCurso += `En ${mesHoras[i]} se impartirán ${horasPorMes[i]} horas. `
         }
 
-        if (ultimoDia > 0 || diasNoLabora.length != 0) {
-            if (!infoCurso.classList.contains('activos')) {
-                infoCurso.classList.toggle('activos');
-            }
-            if (!copiarBtn.classList.contains('activos')) {
-                copiarBtn.classList.toggle('activos')
-            }
-        }
-
         if (diasDeClase != '') {
             if (!diasDeClase.classList.contains('activos')) {
                 diasDeClase.classList.toggle('activos')
             }
         }
+
+        infoCurso.classList.toggle('activos');
+        copiarBtn.classList.toggle('activos');
 
         infoCurso.textContent = infoFinalCurso;
 

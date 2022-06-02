@@ -39,6 +39,11 @@ if (isset($_GET['delete'])) {
     $_SESSION['message'] = "Se eliminó el registro";
     $_SESSION['msg_type'] = "danger";
 
+    if (!$resultado_delete) {
+        $_SESSION['message'] = "No se pudo eliminar el registro";
+        $_SESSION['msg_type'] = "danger";
+    }
+
     header("location: administrador.php");
 }
 
