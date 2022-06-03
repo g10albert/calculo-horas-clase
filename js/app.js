@@ -395,9 +395,9 @@ btnProcesar.addEventListener('click', () => {
             let dia = element.nextElementSibling.textContent;
             if (element.checked) {
                 diasFinales.push(dia)
-                diasDeClase.textContent = diasFinales.join(', ')
             }
         })
+        diasDeClase.textContent = diasFinales.join(', ')
     }
 })
 
@@ -578,7 +578,20 @@ inputLunVieCheck.addEventListener('change', (e) => {
 // Haciendo que si el sabado o domingo están seleccionados no se pueda elegir Lunes/Viernes
 
 const sabDom = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck,#lunCheck,#marCheck,#mieCheck,#jueCheck,#vieCheck');
+
 sabDom.forEach(e => {
+    e.addEventListener('change', () => {
+        if (inputLunVieCheck.checked) {
+            inputLunVieCheck.checked = false;
+        }
+    })
+});
+
+// Haciendo que si se deselecciona un dia de la semana de deseleccione Lunes/Viernes
+
+const deselect = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck');
+
+deselect.forEach(e => {
     e.addEventListener('change', () => {
         if (inputLunVieCheck.checked) {
             inputLunVieCheck.checked = false;
