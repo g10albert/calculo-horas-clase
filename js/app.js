@@ -372,8 +372,8 @@ btnProcesar.addEventListener('click', () => {
             }
         }
 
-        infoCurso.classList.toggle('activos');
-        copiarBtn.classList.toggle('activos');
+        infoCurso.classList.add('activos');
+        copiarBtn.classList.add('activos');
 
         infoCurso.textContent = infoFinalCurso;
 

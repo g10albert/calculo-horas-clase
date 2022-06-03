@@ -358,6 +358,10 @@ label {
 
 @media (min-width: 1024px) {
 
+    body {
+        margin-bottom: 3rem;
+    }
+
     /* Haciendo que los divs se muestren en 3 con flex */
 
     .wraper {
@@ -367,23 +371,24 @@ label {
     /* Estilos para el primer div (Información del curso) */
 
     .info-wraper {
-        min-height: 80vh;
+        min-height: 80%;
         margin-left: 3em;
+        margin-top: 0;
     }
 
     /* Estilos para el segundo div (Selección de días) */
 
     .select-wraper {
-        min-height: 80vh;
+        min-height: 80%;
         margin-right: .8em;
+        margin-top: 0;
     }
 
     /* Estilos para el tercer div (Fechas) */
 
     .date-wraper {
-        min-height: 80vh;
-        margin-left: .8em;
-        margin-right: 2.2em;
+        min-height: 80%;
+        margin: 0 2.2em 0 .8em;
     }
 }
 
