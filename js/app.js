@@ -4,6 +4,8 @@
 
 // const moment = require("moment");
 
+// const moment = require("moment");
+
 //const moment = require("moment");
 
 const inputTotalHoras = document.querySelector('#inputTotalHoras');
@@ -19,9 +21,8 @@ const diasDeClase = document.querySelector('#diasDeClase');
 const copiarBtn = document.querySelector('.copiar-boton');
 const infoCurso = document.querySelector('#infoCurso');
 const mostrarFeriados = document.querySelector('.mostrar-feriados');
-const checkBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)');
+const checkBoxes = document.querySelectorAll('.select__days input[type=checkbox]:not(#lunVieCheck)');
 const mes = document.querySelector("#lista-mes")
-
 const excluirDias = document.querySelector('#excDias');
 const datePicker = new Datepicker('#datepicker', {
     multiple: true,
@@ -29,7 +30,7 @@ const datePicker = new Datepicker('#datepicker', {
         return new Date();
     })()
 });
-const datePickerInput = document.querySelector('.excluir')
+const datePickerInput = document.querySelector('.info__excluir')
 const orderedList = document.querySelector('#lista')
 
 // Conexión con la base de datos para crear array de dias feriados
@@ -116,9 +117,9 @@ btnProcesar.addEventListener('click', () => {
         diasExcluidos = [];
     }
 
-    const inputTotalHorasDia = document.querySelectorAll('.seleccionar-dias input[type=number]');
+    const inputTotalHorasDia = document.querySelectorAll('.select__days input[type=number]');
 
-    const checkTotalHorasDia = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck):checked')
+    const checkTotalHorasDia = document.querySelectorAll('.select__days input[type=checkbox]:not(#lunVieCheck):checked')
 
     const fechaInicio = moment(inputFechaInicio.value);
 
@@ -174,6 +175,8 @@ btnProcesar.addEventListener('click', () => {
 
         let horaPorDia = 0
 
+        // Inicio de proceso para generar todos los datos finales del programa
+
         while (totalHorasProcesadas > 0) {
 
             if (isDateOnSelectedDays(nextDate, diasSeleccionados)) {
@@ -182,7 +185,6 @@ btnProcesar.addEventListener('click', () => {
                     cantidadDiasLaborar++;
                     horaPorDia = getValueFromSelectedDate(nextDate, diasSeleccionados);
                     totalHorasProcesadas -= horaPorDia;
-
                     horasPorDiaArray.push(horaPorDia)
 
                     // contar horas que se dan por mes
@@ -192,46 +194,32 @@ btnProcesar.addEventListener('click', () => {
                     newMonth = getValueFromSelectedDateMonth(nextDate, diasSeleccionados);
 
                     if (mesInicial.format('MMMM') == nextDate.format('MMMM')) {
-
                         horasMes += totalHorasProcesadasMes;
                         horasMesArray.push(horasMes);
-
                         horasPorMesAntes.push(horasMesArray[horasMesArray.length - 1])
-
                     } else {
-
                         horasPorMes.push(horasMesArray[horasMesArray.length - 1]);
-
                         totalHorasProcesadasMes = newMonth;
                         horasMesArray = [];
                         mesInicial.add(1, 'M');
-
                     }
 
                     // Incluir meses en array para mostrarlo en el programa
 
                     if (!mesHoras.includes(mesInicial.format('MMMM'))) {
-
                         mesHoras.push(mesInicial.format('MMMM'));
-
                     }
 
                     // Insertar mes cuando cambia
 
                     if (mes.textContent.trim() != nextDate.format('MMMM')) {
-
                         showMonthInListArray.push(moment(nextDate))
-
                     }
 
                     mes.textContent = nextDate.format('MMMM');
-
                     totalHorasProcesadasArray.push(totalHorasProcesadas)
-
                     nextDateArray.push(moment(nextDate).format('MM-DD-YYYY dddd'))
-
                     nextDateArrayMes.push(moment(nextDate).format('MM'))
-
                 }
 
                 // Proceso de dias feriados 
@@ -243,7 +231,6 @@ btnProcesar.addEventListener('click', () => {
 
             }
             nextDate = nextDate.add(1, 'days')
-
         }
 
         horasPorMes.push(horasPorMesAntes[horasPorMesAntes.length - 1]);
@@ -355,11 +342,11 @@ btnProcesar.addEventListener('click', () => {
 
             let horasDeSobra = horasTotalesDadasPositivas - inputTotalHoras.value;
 
-            let holaamigo = horasPorMes[horasPorMes.length - 1] - horasDeSobra
+            let horasFinMes = horasPorMes[horasPorMes.length - 1] - horasDeSobra
 
             horasPorMes.pop()
 
-            horasPorMes.push(holaamigo)
+            horasPorMes.push(horasFinMes)
         }
 
         for (let i = 0; i < mesHoras.length; i++) {
@@ -397,12 +384,18 @@ btnProcesar.addEventListener('click', () => {
                 diasFinales.push(dia)
             }
         })
-        diasDeClase.textContent = diasFinales.join(', ')
+
+        const listFormatter = new Intl.ListFormat('es', {
+            style: 'long',
+            type: 'conjunction'
+        })
+
+        diasDeClase.textContent = listFormatter.format(diasFinales);
     }
 })
 
 function actualizarDiasSeleccionados() {
-    const inputsDiasSeleccionados = document.querySelectorAll('.seleccionar-dias input[type=number]:not(:disabled)');
+    const inputsDiasSeleccionados = document.querySelectorAll('.select__days input[type=number]:not(:disabled)');
     // Obtener los dias seleccionados
     inputsDiasSeleccionados.forEach(element => {
         diasSeleccionados[element.dataset.index] = element.value;
@@ -434,8 +427,6 @@ function mostrarInformacionOrganizada(datos) {
 
     let horasTotalMesFinal = 0
 
-
-
     for (let key in datos) {
 
         let horasTotalMes = 0
@@ -466,7 +457,7 @@ function mostrarInformacionOrganizada(datos) {
             <div id="panelsStayOpen-collapse-${key}"
                 class="accordion-collapse collapse show">
                 <div class="accordion-body">
-                   `;
+                `;
 
         for (let item of datos[key]) {
 
@@ -516,9 +507,7 @@ function showDayInList(totalHorasProcesadas, nextDate, month, horaDia) {
     addObjectToArray(
         { fecha: nextDate, hora: totalHorasProcesadas, mes: mesActual, horaDia: horaDia }, arrayAgrupar
     )
-
 }
-
 
 inputFechaInicio.addEventListener('change', () => {
     let dia = moment(inputFechaInicio.value).format('dddd');
@@ -527,7 +516,7 @@ inputFechaInicio.addEventListener('change', () => {
 
 // Haciendo que cuando se actualicen las horas por dia se actualicen los campos seleccionados
 
-const listCheckboxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck)');
+const listCheckboxes = document.querySelectorAll('.select__days input[type=checkbox]:not(#lunVieCheck)');
 
 inputHorasDia.addEventListener('keyup', () => {
 
@@ -544,7 +533,7 @@ inputHorasDia.addEventListener('keyup', () => {
 
 // Controlando la seleccion de diferentes dias
 
-const listWeekdaysCheckboxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck,#sabCheck,#domCheck)');
+const listWeekdaysCheckboxes = document.querySelectorAll('.select__days input[type=checkbox]:not(#lunVieCheck,#sabCheck,#domCheck)');
 inputLunVieCheck.addEventListener('change', (e) => {
 
     listWeekdaysCheckboxes.forEach(element => {
@@ -577,7 +566,7 @@ inputLunVieCheck.addEventListener('change', (e) => {
 
 // Haciendo que si el sabado o domingo están seleccionados no se pueda elegir Lunes/Viernes
 
-const sabDom = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck,#lunCheck,#marCheck,#mieCheck,#jueCheck,#vieCheck');
+const sabDom = document.querySelectorAll('.select__days input[type=checkbox]:not(#lunVieCheck,#lunCheck,#marCheck,#mieCheck,#jueCheck,#vieCheck');
 
 sabDom.forEach(e => {
     e.addEventListener('change', () => {
@@ -589,7 +578,7 @@ sabDom.forEach(e => {
 
 // Haciendo que si se deselecciona un dia de la semana de deseleccione Lunes/Viernes
 
-const deselect = document.querySelectorAll('.seleccionar-dias input[type=checkbox]:not(#lunVieCheck');
+const deselect = document.querySelectorAll('.select__days input[type=checkbox]:not(#lunVieCheck');
 
 deselect.forEach(e => {
     e.addEventListener('change', () => {
@@ -639,20 +628,21 @@ nuevoFormulario.addEventListener('click', () => {
     copiarBtn.classList.remove('activos');
     orderedList.textContent = '';
 
-    const fullWeekCheckBoxes = document.querySelectorAll('.seleccionar-dias input[type=checkbox]')
+    const fullWeekCheckBoxes = document.querySelectorAll('.select__days input[type=checkbox]')
     fullWeekCheckBoxes.forEach(diaCheckBox => {
         diaCheckBox.checked = false;
     })
 
-    const fullWeekInputs = document.querySelectorAll('.seleccionar-dias input[type=number]')
+    const fullWeekInputs = document.querySelectorAll('.select__days input[type=number]')
     fullWeekInputs.forEach(input => {
         input.disabled = true;
     })
 
-    const fullWeek = document.querySelectorAll('.dia');
+    const fullWeek = document.querySelectorAll('.select__dia');
     fullWeek.forEach(dia => {
         dia.value = '';
     });
+    console.log(fullWeek);
 })
 
 // Boton para copiar informacion del curso

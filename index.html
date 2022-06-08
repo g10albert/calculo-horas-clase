@@ -16,119 +16,116 @@
 </head>
 
 <body>
-    <Header>
+    <header>
         <h1 class="title">CALCULO DE CURSOS INFOTEP</h1>
-    </Header>
+    </header>
 
     <main class="wraper">
-        <div class="info-wraper">
-            <h3 class="part">Información del curso</h3>
-            <form action="" class="">
-                <div class="">
+        <div class="info">
+            <h3 class="section__title">Información del curso</h3>
+            <form>
+                <div>
                     <label for="inputTotalHoras" class="form-label">Total Horas</label>
-                    <input type="number" class="form-control input" id="inputTotalHoras" value="130">
+                    <input type="number" class="form-control info__input" id="inputTotalHoras">
                 </div>
-                <div class="">
+                <div>
                     <label for="inputHorasDia" class="form-label">Horas por día</label>
-                    <input type="number" class="form-control input" id="inputHorasDia" value="4">
+                    <input type="number" class="form-control info__input" id="inputHorasDia">
                 </div>
-                <div class="">
+                <div>
                     <label for="inputFechaInicio" class="form-label">Inicio</label>
-                    <input type="date" class="form-control input" id="inputFechaInicio">
+                    <input type="date" class="form-control info__input" id="inputFechaInicio">
                 </div>
-                <div class="">
+                <div>
                     <label for="diaFechaInicio" class="form-label">Dia de inicio</label>
-                    <input type="email" class="form-control input" id="diaFechaInicio" disabled>
+                    <input type="email" class="form-control info__input" id="diaFechaInicio" disabled>
                 </div>
-                <div class=" ">
+                <div>
                     <label for="inputFechaFinal" class="form-label">Final</label>
-                    <input type="email" class="form-control input" id="inputFechaFinal" disabled>
+                    <input type="email" class="form-control info__input" id="inputFechaFinal" disabled>
                 </div>
-                <div class=" ">
+                <div>
                     <label for="inputDiasLaborar" class="form-label">Dias a laborar</label>
-                    <input type="number" class="form-control input" id="inputDiasLaborar" disabled>
+                    <input type="number" class="form-control info__input" id="inputDiasLaborar" disabled>
                 </div>
                 <div class="form-check">
-                    <!-- cuando esta opción este marcada apareceran un numero 
-                                n de inputs en los cuales el facilitador dira que dias 
-                                no puede dar clases -->
-                    <div class="excDiv">
-                        <input class="form-check-input" type="checkbox" value="" id="excDias">
+                    <div class="info__excluir_dias">
+                        <input class="form-check-input" type="checkbox" id="excDias">
                         <label class="form-check-label" for="excDias">Excluir días</label>
                     </div>
                     <br>
-                    <input type="text" id="datepicker" class="excluir excluirInput input" autocomplete="off">
+                    <input type="text" id="datepicker" class="info__excluir info__input" autocomplete="off">
                 </div>
             </form>
         </div>
 
-        <div class="select-wraper">
-            <h3 class="part">Selección de días</h3>
-            <form action="" class="seleccionar-dias">
-                <div class="form-check select-day-wraper check-wraper">
-                    <input class="form-check-input checkbox" type="checkbox" value="" id="lunVieCheck">
-                    <label class="form-check-label label label" for="lunVieCheck">Lunes/Viernes</label>
+        <div class="select">
+            <h3 class="section__title">Selección de días</h3>
+            <form class="select__days">
+                <div class="form-check select__select_day select__check_wraper">
+                    <input class="form-check-input select__checkbox" type="checkbox" id="lunVieCheck">
+                    <label class="form-check-label select__label" for="lunVieCheck">Lunes/Viernes</label>
                 </div>
                 <div class="tab">
-                    <div class="form-check select-day-wraper input-value check-wraper">
-                        <input class="form-check-input checkbox lunCheck" type="checkbox" value="" id="lunCheck">
-                        <label class="form-check-label label label" for="lunCheck">Lunes</label>
-                        <input type="number" class=" dia" id="inputHorasLun" data-index="1" disabled>
+                    <div class="form-check select__select_day input-value select__check_wraper">
+                        <input class="form-check-input select__checkbox" type="checkbox" id="lunCheck">
+                        <label class="form-check-label select__label" for="lunCheck">Lunes</label>
+                        <input type="number" class="select__dia" id="inputHorasLun" data-index="1" disabled>
                     </div>
-                    <div class="form-check select-day-wraper input-value check-wraper">
-                        <input class="form-check-input checkbox marCheck" type="checkbox" value="" id="marCheck">
-                        <label class="form-check-label label label" for="marCheck">Martes</label>
-                        <input type="number" class=" dia" id="inputHorasMar" data-index="2" disabled>
+                    <div class="form-check select__select_day input-value select__check_wraper">
+                        <input class="form-check-input select__checkbox" type="checkbox" id="marCheck">
+                        <label class="form-check-label select__label" for="marCheck">Martes</label>
+                        <input type="number" class="select__dia" id="inputHorasMar" data-index="2" disabled>
                     </div>
-                    <div class="form-check select-day-wraper input-value check-wraper">
-                        <input class="form-check-input checkbox mieCheck" type="checkbox" value="" id="mieCheck">
-                        <label class="form-check-label label label" for="mieCheck">Miercoles</label>
-                        <input type="number" class=" dia" id="inputHorasMie" data-index="3" disabled>
+                    <div class="form-check select__select_day input-value select__check_wraper">
+                        <input class="form-check-input select__checkbox" type="checkbox" id="mieCheck">
+                        <label class="form-check-label select__label" for="mieCheck">Miercoles</label>
+                        <input type="number" class="select__dia" id="inputHorasMie" data-index="3" disabled>
                     </div>
-                    <div class="form-check select-day-wraper input-value check-wraper">
-                        <input class="form-check-input checkbox jueCheck" type="checkbox" value="" id="jueCheck">
-                        <label class="form-check-label label label" for="jueCheck">Jueves</label>
-                        <input type="number" class=" dia" id="inputHorasJue" data-index="4" disabled>
+                    <div class="form-check select__select_day input-value select__check_wraper">
+                        <input class="form-check-input select__checkbox" type="checkbox" id="jueCheck">
+                        <label class="form-check-label select__label" for="jueCheck">Jueves</label>
+                        <input type="number" class="select__dia" id="inputHorasJue" data-index="4" disabled>
                     </div>
-                    <div class="form-check select-day-wraper input-value check-wraper">
-                        <input class="form-check-input checkbox vieCheck" type="checkbox" value="" id="vieCheck">
-                        <label class="form-check-label label label" for="vieCheck">Viernes</label>
-                        <input type="number" class=" dia" id="inputHorasVie" data-index="5" disabled>
+                    <div class="form-check select__select_day input-value select__check_wraper">
+                        <input class="form-check-input select__checkbox" type="checkbox" id="vieCheck">
+                        <label class="form-check-label select__label" for="vieCheck">Viernes</label>
+                        <input type="number" class="select__dia" id="inputHorasVie" data-index="5" disabled>
                     </div>
                 </div>
 
-                <div class="form-check select-day-wraper input-value check-wraper">
-                    <input class="form-check-input checkbox sabCheck" type="checkbox" value="" id="sabCheck">
-                    <label class="form-check-label label label" for="sabCheck">Sabado</label>
-                    <input type="number" class=" dia" id="inputHorasSab" data-index="6" disabled>
+                <div class="form-check select__select_day input-value select__check_wraper">
+                    <input class="form-check-input select__checkbox" type="checkbox" id="sabCheck">
+                    <label class="form-check-label select__label" for="sabCheck">Sabado</label>
+                    <input type="number" class="select__dia" id="inputHorasSab" data-index="6" disabled>
                 </div>
-                <div class="form-check select-day-wraper input-value check-wraper">
-                    <input class="form-check-input checkbox domCheck" type="checkbox" value="" id="domCheck">
-                    <label class="form-check-label label label" for="domCheck">Domingo</label>
-                    <input type="number" class=" dia" id="inputHorasDom" data-index="0" disabled>
+                <div class="form-check select__select_day input-value select__check_wraper">
+                    <input class="form-check-input select__checkbox" type="checkbox" id="domCheck">
+                    <label class="form-check-label select__label" for="domCheck">Domingo</label>
+                    <input type="number" class="select__dia" id="inputHorasDom" data-index="0" disabled>
                 </div>
             </form>
             <div class="btn-wraper">
-                <div class="">
+                <div>
                     <button type="submit" class="procesar btn" id="procesar">Procesar</button>
                 </div>
                 <div class="center-btns">
-                    <div class="">
+                    <div>
                         <button id="nuevo" type="submit" class="nuevo btn">Nuevo</button>
                     </div>
-                    <div class="">
+                    <div>
                         <a href="https://www.google.com"><button type="submit" class="salir btn">Salir</button></a>
                     </div>
                 </div>
-                <div class="">
+                <div>
                     <button type="submit" class="mostrar-feriados feriados btn">Mostrar feriados</button>
                 </div>
             </div>
 
         </div>
 
-        <div class="date-wraper">
-            <h3 class="part">Fechas</h3>
+        <div class="date">
+            <h3 class="section__title">Fechas</h3>
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
@@ -142,16 +139,16 @@
                         <div class="accordion-body">
                             <ol class="list-group list-group-numbered" id="lista">
                                 <div id="lista-mes">
-                                    
+
                                 </div>
                             </ol>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="info">
-                <p id="diasDeClase" class="diasDeClase txt-info inactivo"></p>
-                <p id="infoCurso" class="infoCurso txt-info inactivo"></p>
+            <div class="informacion">
+                <p id="diasDeClase" class="diasDeClase informacion__txt inactivo"></p>
+                <p id="infoCurso" class="infoCurso informacion__txt inactivo"></p>
                 <button type="submit" class="copiar-boton inactivo">Copiar</button>
             </div>
         </div>

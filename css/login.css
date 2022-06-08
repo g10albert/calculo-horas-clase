@@ -141,3 +141,16 @@ body {
         margin: 1.8em 0 2.5em 0;
     }
 }
+
+@media (min-width: 1400px) {
+    body {
+        display: grid;
+        grid-template-columns: 400px;
+        justify-content: center;
+    }
+
+    .wraper {
+        width: 100%;
+        margin: 0;
+    }
+}
