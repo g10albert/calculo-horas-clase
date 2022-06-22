@@ -330,7 +330,9 @@ label {
     }
 
     .select__select_day .select__dia {
+        padding: 0 .5rem;
         height: 2rem;
+        font-size: 1.3rem;
     }
 
     /* Estilos para los botones del segundo div*/

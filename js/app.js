@@ -90,8 +90,8 @@ btnProcesar.addEventListener('click', () => {
         return;
     }
 
-    var now = moment().format('YYYY-MM-DD')
-    var inicio = (inputFechaInicio.value)
+    let now = moment().format('YYYY-MM-DD')
+    let inicio = (inputFechaInicio.value)
     if (inicio < now) {
         alert('La fecha no puede ser una anterior a la actual');
         return;
@@ -123,9 +123,77 @@ btnProcesar.addEventListener('click', () => {
 
     const fechaInicio = moment(inputFechaInicio.value);
 
+    // Procesar la informacion de dias a dar clases
+
     diasSeleccionados = {}
 
     actualizarDiasSeleccionados();
+
+    let xdia;
+
+    let salida = '';
+
+    // Funcion para sacar la informacion de los dias que se va a impartir el curso
+
+    function evaluarDias(cadias) {
+
+        let losdias = "Dom Lun Mar Mié Jue Vie Sáb "
+
+        let cantDias = (cadias.match(/\d/g) || []).length;
+
+        for (let j = 0; j < cadias.trim().length; j++) {
+
+            xdia = (cadias[j])
+
+            // Cuando solo se selecciona un dia
+
+            if (cadias.length == 1) {
+                for (let i = 0; i < 3; i++) {
+                    salida += losdias[xdia * 4 + i]
+                }
+            } else {
+
+                // Cuando se selecciona mas de un dia
+
+                if (cadias[j] != ',' && cadias[j] != '-') {
+
+                    for (let i = 0; i < 3; i++) {
+                        salida += losdias[xdia * 4 + i]
+                    }
+
+                } else if (cadias[j] == ',') {
+                    salida += ' y '
+                } else if (cadias[j] == '-') {
+                    salida += ' a '
+                }
+            }
+        }
+    }
+
+    let arrayDias = Object.keys(diasSeleccionados)
+    let arrayDiasFinal = [];
+    let arrayDiasRange;
+    let arrayDiasRangeStr;
+
+    for (let i = 0; i < arrayDias.length; i++) {
+        arrayDiasFinal.push(+arrayDias[i])
+    }
+
+    function getRanges(arrayDiasFinal) {
+        for (var ranges = [], rend, i = 0; i < arrayDiasFinal.length;) {
+            ranges.push((rend = arrayDiasFinal[i]) + ((function (rstart) {
+                while (++rend === arrayDiasFinal[++i]);
+                return --rend === rstart;
+            })(rend) ? '' : '-' + rend));
+        }
+        return ranges;
+    }
+
+    arrayDiasRange = getRanges(arrayDiasFinal)
+
+    arrayDiasRangeStr = arrayDiasRange.join();
+
+    evaluarDias(arrayDiasRangeStr)
 
     isDateOnSelectedDays(fechaInicio, diasSeleccionados)
 
@@ -372,26 +440,7 @@ btnProcesar.addEventListener('click', () => {
 
     // Inyectandole al parrafo los dias que se seleccionaron para dar clases
 
-    const diasFinales = []
-
-    dia_id: if (inputLunVieCheck.checked) {
-        diasDeClase.textContent = 'Lunes a viernes';
-        break dia_id
-    } else {
-        checkBoxes.forEach(element => {
-            let dia = element.nextElementSibling.textContent;
-            if (element.checked) {
-                diasFinales.push(dia)
-            }
-        })
-
-        const listFormatter = new Intl.ListFormat('es', {
-            style: 'long',
-            type: 'conjunction'
-        })
-
-        diasDeClase.textContent = listFormatter.format(diasFinales);
-    }
+    diasDeClase.textContent = salida;
 })
 
 function actualizarDiasSeleccionados() {
@@ -607,7 +656,7 @@ listCheckboxes.forEach((checkbox) => {
 // Haciendo que la fecha de inicio sea la de este momento al cargar la pagina
 
 window.onload = function () {
-    var now = moment();
+    let now = moment();
     inputFechaInicio.value = now.format('YYYY-MM-DD');
 }
 
@@ -616,7 +665,7 @@ window.onload = function () {
 nuevoFormulario.addEventListener('click', () => {
     inputTotalHoras.value = '';
     inputHorasDia.value = '';
-    var now = moment();
+    let now = moment();
     inputFechaInicio.value = now.format('YYYY-MM-DD');
     diaFechaInicio.value = '';
     inputFechaFinal.value = '';
