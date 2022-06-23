@@ -1,5 +1,9 @@
 // const moment = require("moment");
 
+// const { object } = require("underscore");
+
+// const { object } = require("underscore");
+
 // const moment = require("moment");
 
 // const moment = require("moment");
@@ -32,6 +36,9 @@ const datePicker = new Datepicker('#datepicker', {
 });
 const datePickerInput = document.querySelector('.info__excluir')
 const orderedList = document.querySelector('#lista')
+const mesesEspanol = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
+const mesesIngles = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+let indexMesHoras = 0
 
 // Conexión con la base de datos para crear array de dias feriados
 
@@ -418,7 +425,8 @@ btnProcesar.addEventListener('click', () => {
         }
 
         for (let i = 0; i < mesHoras.length; i++) {
-            infoFinalCurso += `En ${mesHoras[i]} se impartirán ${horasPorMes[i]} horas. `
+                indexMesHoras = mesesIngles.indexOf(mesHoras[i])
+                infoFinalCurso += `En ${mesesEspanol[indexMesHoras]} se impartirán ${horasPorMes[i]} horas. `;
         }
 
         if (diasDeClase != '') {
