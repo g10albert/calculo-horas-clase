@@ -410,5 +410,6 @@ label {
     body {
         display: grid;
         place-content: center;
+        grid-template-columns: 1fr;
     }
 }
