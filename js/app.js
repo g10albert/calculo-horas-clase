@@ -44,7 +44,7 @@ let indexMesHoras = 0
 
 const feriados = [];
 async function fetchDates() {
-    const response = await fetch('http://localhost/manolo_api/');
+    const response = await fetch('http://centronorte10.sytes.net/manolo_api/');
     const dates = await response.json();
     for (let i = 0; i < dates.length; i++) {
         feriados.push(moment(dates[i].dia_festivo).format('MM-DD-YYYY'))
