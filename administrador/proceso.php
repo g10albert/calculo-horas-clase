@@ -2,7 +2,12 @@
 
 session_start();
 
-$conexion = new mysqli("localhost", "root", "", "infotep_cursos") or die(mysqli_error($mysqli));
+$dbhost = "localhost";
+$dbname = "infotep_cursos";
+$dbuser = "root";
+$dbpassword = "";
+
+$conexion = new mysqli($dbhost, $dbuser, $dbpassword, $dbname) or die(mysqli_error($mysqli));
 
 $id = 0;
 $update = false;

@@ -405,7 +405,7 @@ btnProcesar.addEventListener('click', () => {
             ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
 
             if (ultimoDia > 0) {
-                infoFinalCurso = `El ultimo dia de clase se impartirán: ${horasSobran} horas. `;
+                infoFinalCurso += `El ultimo dia de clase se impartirán: ${horasSobran} horas. `;
             }
         }
 
@@ -424,10 +424,39 @@ btnProcesar.addEventListener('click', () => {
             horasPorMes.push(horasFinMes)
         }
 
+        let infoFinalCursoArray = [];
+
+        // Enviando a un array la cantidad de horas con su mes en forma de lista
+
         for (let i = 0; i < mesHoras.length; i++) {
-                indexMesHoras = mesesIngles.indexOf(mesHoras[i])
-                infoFinalCurso += `En ${mesesEspanol[indexMesHoras]} se impartirán ${horasPorMes[i]} horas. `;
+            indexMesHoras = mesesIngles.indexOf(mesHoras[i])
+            infoFinalCursoArray.push(`en ${mesesEspanol[indexMesHoras]} se impartirán ${horasPorMes[i]} horas`);
         }
+
+        // Funcion para hacer que el texto de un array en forma de lista sea mas legible por humanos
+
+        const listFormatter = new Intl.ListFormat('es', {
+            style: 'long',
+            type: 'conjunction'
+        })
+
+        infoFinalCursoStrings = listFormatter.format(infoFinalCursoArray)
+
+        // Funcion para hacer mayuscula solo la primera letra de la información
+
+        Object.defineProperty(String.prototype, 'capitalize', {
+            value: function () {
+                return this.charAt(0).toUpperCase() + this.slice(1);
+            },
+            enumerable: false,
+            configurable:true
+        });
+
+        // mostrando la información al usuario
+
+        infoFinalCurso += `${infoFinalCursoStrings.capitalize()}`;
+
+        
 
         if (diasDeClase != '') {
             if (!diasDeClase.classList.contains('activos')) {
@@ -699,7 +728,6 @@ nuevoFormulario.addEventListener('click', () => {
     fullWeek.forEach(dia => {
         dia.value = '';
     });
-    console.log(fullWeek);
 })
 
 // Boton para copiar informacion del curso

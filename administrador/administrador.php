@@ -13,13 +13,22 @@
 </head>
 
 <body>
-    <?php require_once './dia.php'; ?>
-    <?php require_once './proceso.php'; ?>
+    <?php
+    require_once './dia.php';
+    require_once './proceso.php';
+    
+
+    $usuario = $_SESSION['usuario'];
+
+    if(!isset($usuario)) {
+        header('location: ../login/login.html');
+    }
+
+    ?>
 
     <?php
     if (isset($_SESSION['message'])) :
     ?>
-
 
         <div class="alert alerts alert-dismissible fade show  alert-<?= $_SESSION['msg_type'] ?>" role="alert">
 
@@ -46,12 +55,14 @@
             <?php else : ?>
                 <button id="btn" class="btn" type="submit" name="guardar">Guardar</button>
             <?php endif; ?>
+            
         </form>
+        <a class="cerrar_sesion" href="./cerrar_sesion.php">cerrar sesion</a>
     </div>
 
     <?php
 
-    $conexion = new mysqli("localhost", "root", "", "infotep_cursos") or die(mysqli_error($mysqli));
+    $conexion = new mysqli($dbhost, $dbuser, $dbpassword, $dbname) or die(mysqli_error($mysqli));
 
     $consulta_datos = "SELECT * FROM dias_festivos ORDER BY dia_festivo DESC";
     $resultado_datos = mysqli_query($conexion, $consulta_datos) or die("Error en el query");
@@ -93,6 +104,18 @@
 
             .alerts {
                 color: #000;
+            }
+
+            .wraper {
+                padding-bottom: 1rem;
+            }
+
+            a.cerrar_sesion {
+                /* background: red; */
+                color: red;
+                font-size: 1.6rem;
+                font-weight: 400;
+                border-radius: 50px;
             }
         </style>
 

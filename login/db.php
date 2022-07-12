@@ -1,3 +1,6 @@
-<!-- <?php
-$conexion = mysqli_connect("localhost", "root", "", "infotep_cursos");
-?> -->
+<?php
+
+require_once './proceso.php';
+$conexion = mysqli_connect($dbhost, $dbuser, $dbpassword, $dbname);
+
+?>
