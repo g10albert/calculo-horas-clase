@@ -1,5 +1,9 @@
 // const moment = require("moment");
 
+// import Datepicker from "../Datepicker.js-master/Datepicker.js-master/src";
+
+// import datepicker = require("./datepicker");
+
 // const { object } = require("underscore");
 
 // const { object } = require("underscore");
@@ -29,6 +33,7 @@ const checkBoxes = document.querySelectorAll('.select__days input[type=checkbox]
 const mes = document.querySelector("#lista-mes")
 const excluirDias = document.querySelector('#excDias');
 const datePicker = new Datepicker('#datepicker', {
+    language: 'es',
     multiple: true,
     min: (function () {
         return new Date();
@@ -36,9 +41,13 @@ const datePicker = new Datepicker('#datepicker', {
 });
 const datePickerInput = document.querySelector('.info__excluir')
 const orderedList = document.querySelector('#lista')
-const mesesEspanol = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-const mesesIngles = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+const diasIngles = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+const diasEspanol = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+const mesIngles = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+const mesEspanol = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 let indexMesHoras = 0
+
+let diasExcluir;
 
 // Conexión con la base de datos para crear array de dias feriados
 
@@ -47,7 +56,7 @@ async function fetchDates() {
     const response = await fetch('http://centronorte10.sytes.net/manolo_api/');
     const dates = await response.json();
     for (let i = 0; i < dates.length; i++) {
-        feriados.push(moment(dates[i].dia_festivo).format('MM-DD-YYYY'))
+        feriados.push(moment(dates[i].dia_festivo).format('DD/MM/YYYY'))
     }
 }
 
@@ -64,6 +73,13 @@ const MAXIMO_HORAS_DIA = 12;
 let arrayAgrupar = [];
 
 let contadorTotalHoras = 0
+
+let inicio;
+
+inputTotalHoras.focus()
+
+let ultimoDia = 0;
+let ultimoDiaDeFecha = 0;
 
 btnProcesar.addEventListener('click', () => {
     // Validar que los campos tengan datos correctos
@@ -97,12 +113,9 @@ btnProcesar.addEventListener('click', () => {
         return;
     }
 
-    let now = moment().format('YYYY-MM-DD')
-    let inicio = (inputFechaInicio.value)
-    if (inicio < now) {
-        alert('La fecha no puede ser una anterior a la actual');
-        return;
-    }
+    let fechaEs = inputFechaInicio.value;
+    let fechaRota = fechaEs.split("/");
+    inicio = fechaRota[1] + "/" + fechaRota[0] + "/" + fechaRota[2];
 
     horasPorDiaArray = [];
 
@@ -112,11 +125,11 @@ btnProcesar.addEventListener('click', () => {
 
     // Procesar dias en los que el facilitador no dará clases
 
-    let diasExcluir = datePicker.getValue().split(',')
+    diasExcluir = datePicker.getValue().split(',')
     let diasExcluidos = [];
 
     for (i = 0; i < diasExcluir.length; i++) {
-        let diaExcluido = moment(diasExcluir[i]).format('MM-DD-YYYY');
+        let diaExcluido = moment(diasExcluir[i]).format('DD/MM/YYYY');
         diasExcluidos.push(diaExcluido)
     }
 
@@ -128,7 +141,7 @@ btnProcesar.addEventListener('click', () => {
 
     const checkTotalHorasDia = document.querySelectorAll('.select__days input[type=checkbox]:not(#lunVieCheck):checked')
 
-    const fechaInicio = moment(inputFechaInicio.value);
+    const fechaInicio = moment(inicio).format('MM/DD/YYYY');
 
     // Procesar la informacion de dias a dar clases
 
@@ -204,6 +217,7 @@ btnProcesar.addEventListener('click', () => {
 
     isDateOnSelectedDays(fechaInicio, diasSeleccionados)
 
+
     let feriadosExcluidos = [...new Set([...feriados, ...diasExcluidos])]
 
     let totalHorasProcesadas = +inputTotalHoras.value;
@@ -256,7 +270,7 @@ btnProcesar.addEventListener('click', () => {
 
             if (isDateOnSelectedDays(nextDate, diasSeleccionados)) {
 
-                if (!feriadosExcluidos.includes(nextDate.format('MM-DD-YYYY'))) {
+                if (!feriadosExcluidos.includes(nextDate.format('DD/MM/YYYY'))) {
                     cantidadDiasLaborar++;
                     horaPorDia = getValueFromSelectedDate(nextDate, diasSeleccionados);
                     totalHorasProcesadas -= horaPorDia;
@@ -293,15 +307,27 @@ btnProcesar.addEventListener('click', () => {
 
                     mes.textContent = nextDate.format('MMMM');
                     totalHorasProcesadasArray.push(totalHorasProcesadas)
-                    nextDateArray.push(moment(nextDate).format('MM-DD-YYYY dddd'))
+
+                    let fechaMostrar = moment(nextDate).format('DD/MM/YYYY')
+
+                    let diaIngles = diasIngles.indexOf(moment(nextDate).format('dddd'))
+
+                    let diaEspanol = diasEspanol[diaIngles]
+
+
+
+
+
+                    nextDateArray.push(fechaMostrar + " " + diaEspanol)
                     nextDateArrayMes.push(moment(nextDate).format('MM'))
                 }
+
 
                 // Proceso de dias feriados 
 
                 else {
                     noLabora += 1;
-                    diasNoLabora.push(nextDate.format('MM-DD-YYYY'))
+                    diasNoLabora.push(nextDate.format('DD/MM/YYYY'))
                 }
 
             }
@@ -369,18 +395,21 @@ btnProcesar.addEventListener('click', () => {
         }
 
         let mesesOrganizados = arrayAgrupar.reduce((group, item) => {
-            const { mes } = item;
+            let { mes } = item;
+
+            let indexMes = mesIngles.indexOf(mes)
+
+            mes = mesEspanol[indexMes]
+
             group[mes] = group[mes] ?? [];
             group[mes].push(item);
+
             return group;
         }, {})
 
-        mostrarInformacionOrganizada(mesesOrganizados)
-
         let infoFinalCurso = '';
-        let ultimoDia = 0;
 
-        inputFechaFinal.value = nextDate.subtract(1, 'days').format('MM-DD-YYYY');
+        inputFechaFinal.value = nextDate.subtract(1, 'days').format('DD/MM/YYYY');
 
         // Proceso cuando las horas procesadas son mas que el total de horas del curso
 
@@ -392,8 +421,8 @@ btnProcesar.addEventListener('click', () => {
             if (nextDate.day() in diasSeleccionados) {
             } else {
                 nextDate = nextDate.subtract(1, 'days')
-                let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
-                ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
+                // let horasSobran = totalHorasProcesadas - (+inputTotalHoras.value);
+                // ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
             }
 
             horasTotalesDadas = totalHorasProcesadas - (+inputTotalHoras.value);
@@ -401,13 +430,17 @@ btnProcesar.addEventListener('click', () => {
             horasTotalesDadasPositivas = Math.abs(horasTotalesDadas);
 
             let horasSobran = Math.abs(-(horasTotalesDadas + (+inputTotalHoras.value)));
-
+            
             ultimoDia = (getValueFromSelectedDate(nextDate, diasSeleccionados) - horasSobran);
 
             if (ultimoDia > 0) {
-                infoFinalCurso += `El ultimo dia de clase se impartirán: ${horasSobran} horas. `;
+                infoFinalCurso += `El ultimo dia de clase se impartirán: ${ultimoDia} horas. `;
             }
         }
+
+        mostrarInformacionOrganizada(mesesOrganizados)
+
+        console.log(ultimoDia)
 
         if (diasNoLabora.length != 0) {
             infoFinalCurso += `No se laborará el ${diasNoLabora.join(', ')}. `
@@ -423,40 +456,6 @@ btnProcesar.addEventListener('click', () => {
 
             horasPorMes.push(horasFinMes)
         }
-
-        let infoFinalCursoArray = [];
-
-        // Enviando a un array la cantidad de horas con su mes en forma de lista
-
-        for (let i = 0; i < mesHoras.length; i++) {
-            indexMesHoras = mesesIngles.indexOf(mesHoras[i])
-            infoFinalCursoArray.push(`en ${mesesEspanol[indexMesHoras]} se impartirán ${horasPorMes[i]} horas`);
-        }
-
-        // Funcion para hacer que el texto de un array en forma de lista sea mas legible por humanos
-
-        const listFormatter = new Intl.ListFormat('es', {
-            style: 'long',
-            type: 'conjunction'
-        })
-
-        infoFinalCursoStrings = listFormatter.format(infoFinalCursoArray)
-
-        // Funcion para hacer mayuscula solo la primera letra de la información
-
-        Object.defineProperty(String.prototype, 'capitalize', {
-            value: function () {
-                return this.charAt(0).toUpperCase() + this.slice(1);
-            },
-            enumerable: false,
-            configurable:true
-        });
-
-        // mostrando la información al usuario
-
-        infoFinalCurso += `${infoFinalCursoStrings.capitalize()}`;
-
-        
 
         if (diasDeClase != '') {
             if (!diasDeClase.classList.contains('activos')) {
@@ -478,6 +477,14 @@ btnProcesar.addEventListener('click', () => {
     // Inyectandole al parrafo los dias que se seleccionaron para dar clases
 
     diasDeClase.textContent = salida;
+
+    let dia = moment(inicio).format('dddd');
+
+    diaFechaInicio.value = dia;
+    let indexDiaSemana = diasIngles.indexOf(dia)
+
+    diaFechaInicio.value = diasEspanol[indexDiaSemana]
+
 })
 
 function actualizarDiasSeleccionados() {
@@ -533,7 +540,7 @@ function mostrarInformacionOrganizada(datos) {
         mesItem +=
             `<div class="accordion-item">
             <h2 class="accordion-header">
-                <button class="accordion-button" id="lista-mes" type="button"
+                <button class="accordion-button collapsed" id="lista-mes" type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#panelsStayOpen-collapse-${key}" aria-expanded="true">
                     ${key} <div class="">${horasTotalMes}</div>
@@ -541,7 +548,7 @@ function mostrarInformacionOrganizada(datos) {
                 
             </h2>
             <div id="panelsStayOpen-collapse-${key}"
-                class="accordion-collapse collapse show">
+                class="accordion-collapse collapse">
                 <div class="accordion-body">
                 `;
 
@@ -550,7 +557,7 @@ function mostrarInformacionOrganizada(datos) {
             contadorTotalHoras += item.horaDia
 
             if (contadorTotalHoras > +inputTotalHoras.value) {
-                item.horaDia = horasRestan;
+                item.horaDia = ultimoDia;
             }
 
             mesItem +=
@@ -595,10 +602,6 @@ function showDayInList(totalHorasProcesadas, nextDate, month, horaDia) {
     )
 }
 
-inputFechaInicio.addEventListener('change', () => {
-    let dia = moment(inputFechaInicio.value).format('dddd');
-    diaFechaInicio.value = dia;
-})
 
 // Haciendo que cuando se actualicen las horas por dia se actualicen los campos seleccionados
 
@@ -694,7 +697,7 @@ listCheckboxes.forEach((checkbox) => {
 
 window.onload = function () {
     let now = moment();
-    inputFechaInicio.value = now.format('YYYY-MM-DD');
+    inputFechaInicio.value = now.format('DD/MM/YYYY');
 }
 
 // Resetear los valores del formulario para empezar uno nuevo
@@ -703,7 +706,7 @@ nuevoFormulario.addEventListener('click', () => {
     inputTotalHoras.value = '';
     inputHorasDia.value = '';
     let now = moment();
-    inputFechaInicio.value = now.format('YYYY-MM-DD');
+    inputFechaInicio.value = now.format('DD/MM/YYYY');
     diaFechaInicio.value = '';
     inputFechaFinal.value = '';
     inputDiasLaborar.value = '';
@@ -713,6 +716,9 @@ nuevoFormulario.addEventListener('click', () => {
     infoCurso.classList.remove('activos');
     copiarBtn.classList.remove('activos');
     orderedList.textContent = '';
+    excluirDias.checked = false;
+    datePickerInput.classList.remove('activo');
+    datePicker.setDate()
 
     const fullWeekCheckBoxes = document.querySelectorAll('.select__days input[type=checkbox]')
     fullWeekCheckBoxes.forEach(diaCheckBox => {
@@ -732,8 +738,33 @@ nuevoFormulario.addEventListener('click', () => {
 
 // Boton para copiar informacion del curso
 
+function copyToClipboard(textToCopy) {
+    // navigator clipboard api needs a secure context (https)
+    if (navigator.clipboard && window.isSecureContext) {
+        // navigator clipboard api method'
+        return navigator.clipboard.writeText(textToCopy);
+    } else {
+        // text area method
+        let textArea = document.createElement("textarea");
+        textArea.value = textToCopy;
+        // make the textarea out of viewport
+        textArea.style.position = "fixed";
+        textArea.style.left = "-999999px";
+        textArea.style.top = "-999999px";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        return new Promise((res, rej) => {
+            // here the magic happens
+            document.execCommand('copy') ? res() : rej();
+            textArea.remove();
+        });
+    }
+}
+
 copiarBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(infoCurso.textContent)
+    copyToClipboard(infoCurso.textContent)
+    // navigator.clipboard.writeText(infoCurso.textContent)
 })
 
 // Mostrar dias feriados
@@ -748,5 +779,6 @@ excluirDias.addEventListener('change', () => {
     datePickerInput.classList.toggle('activo');
     if (!excluirDias.checked) {
         datePickerInput.value = ''
+        datePicker.setDate()
     }
 })

@@ -9,9 +9,9 @@ btn.addEventListener('click', () => {
 })
 
 
-fecha.addEventListener('change', () => {
-    if (date.value < now) {
-        alert('La fecha no puede ser anterior a hoy');
-        date.value = now;
-    }
-});
+// fecha.addEventListener('change', () => {
+//     if (date.value < now) {
+//         alert('La fecha no puede ser anterior a hoy');
+//         date.value = now;
+//     }
+// });

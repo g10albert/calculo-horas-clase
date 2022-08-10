@@ -23,6 +23,7 @@
   line-height: 4;
   font-weight: bold;
   text-align: center;
+  font-size: 1.2rem;
 }
 
 .datepicker__wrapper {
@@ -34,7 +35,7 @@
   z-index: 1;
   background: white;
   border: 1px solid #2196F3;
-  width: 16rem;
+  width: 25rem;
 }
 
 .datepicker__wrapper::after {
@@ -59,7 +60,7 @@
 .datepicker__title {
   display: inline-block;
   padding: 0.25rem;
-  font-size: 0.875rem;
+  font-size: 1.3rem;
   line-height: 1.5rem;
   font-weight: bold;
   color: white;
@@ -103,7 +104,7 @@
 .datepicker__time {
   padding: 0.5rem 1rem;
   margin: 0 -0.5rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   text-align: right;
   background: #E3F2FD;
   border-bottom: 1px solid #BBDEFB;
@@ -217,7 +218,7 @@
   position: absolute;
   top: 50%; left: 0;
   width: 100%;
-  font-size: 0.75rem;
+  font-size: 1.1rem;
   line-height: 1rem;
   margin-top: -0.5rem;
   text-align: center;

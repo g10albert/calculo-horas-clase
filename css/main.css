@@ -66,14 +66,27 @@ a {
     text-decoration: none;
 }
 
+a:hover {
+    color: white;
+}
+
 /* Estilos para el titulo */
 
-.title {
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: var(--clr-main);
-    color: white;
-    min-height: 4ch;
-    line-height: 4ch;
+    padding-inline: 4rem;
+
+    min-height: 10ch;
     margin-bottom: 2rem;
+}
+
+.title {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0;
 }
 
 /* Estilos para el primer div (informacion del curso) */
@@ -261,6 +274,16 @@ label {
 
 @media (min-width: 768px) {
 
+    /* Estilos para header */
+
+    header {
+        padding-inline: 6rem;
+    }
+    
+    .title {
+        font-size: 2rem;
+    }
+
     /* Dividiendo los diferentes divs para aprovechar mejor el espacio */
 
     .wraper {
@@ -359,6 +382,16 @@ label {
 /* Estilos para pantallas mayores a 1024px pixeles */
 
 @media (min-width: 1024px) {
+
+    /* Estilos para header */
+
+    header {
+        padding-inline: 4rem;
+    }
+    
+    .title {
+        font-size: 2rem;
+    }
 
     body {
         margin-bottom: 3rem;
